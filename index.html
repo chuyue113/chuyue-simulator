@@ -122,22 +122,11 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== 語言切換器 ===== */
+  /* ===== 語言切換器（骨架階段隱藏，由系統設定統一管理） ===== */
   .lang-switcher {
-    position: fixed;
-    top: 12px;
-    right: 12px;
-    z-index: 1000;
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-soft);
-    padding: 10px 14px;
-    display: flex;
-    gap: 6px;
-    border: 1.5px solid var(--border);
-    backdrop-filter: blur(10px);
+    display: none;
   }
-  
+
   .lang-btn {
     padding: 5px 10px;
     border-radius: 6px;
@@ -161,22 +150,9 @@
     border-color: var(--primary);
   }
 
-  /* 控制面板 */
+  /* 控制面板（骨架階段隱藏，由系統設定統一管理） */
   .controls {
-    position: fixed;
-    top: 56px;
-    right: 12px;
-    z-index: 1000;
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-soft);
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 210px;
-    font-size: 13px;
-    border: 1.5px solid var(--border);
+    display: none;
   }
   
   .controls h4 {
@@ -225,9 +201,9 @@
     transition: width 0.3s ease;
   }
   
-  .mode-desktop .preview-frame { width: 1280px; }
-  .mode-tablet .preview-frame { width: 768px; }
-  .mode-mobile .preview-frame { width: 375px; }
+  .mode-desktop .preview-frame { width: 100%; margin: 0; border-radius: 0; box-shadow: none; }
+  .mode-tablet .preview-frame { width: 768px; margin: 70px auto 30px; }
+  .mode-mobile .preview-frame { width: 375px; margin: 70px auto 30px; }
 
   /* ===== LAYOUT ===== */
   .layout {
@@ -1066,6 +1042,19 @@
     line-height: 1.4;
   }
 
+  /* ===== 桌面全寬覆蓋 ===== */
+  .mode-desktop .hero,
+  .mode-desktop .status-bar,
+  .mode-desktop .announcement,
+  .mode-desktop .recent-section,
+  .mode-desktop .recommend-section,
+  .mode-desktop .suggestion-box,
+  .mode-desktop .features {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   /* ===== 平板適配 ===== */
   .mode-tablet .sidebar {
     width: 68px;
@@ -1201,10 +1190,7 @@
   }
 
   .note {
-    text-align: center;
-    padding: 14px;
-    color: var(--text-muted);
-    font-size: 12px;
+    display: none;
   }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
