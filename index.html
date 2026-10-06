@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuyue 國風主題</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== 四套國風配色主題 ===== */
+  /* 預設主題：繡日搖風（粉黃系） */
+  :root {
+    --fan-tao-pink: #EABFC3;
+    --ying-xi-yellow: #F2CB8E;
+    --hu-po-yellow: #EAC077;
+    --fei-yu-xia: #F5D5D9;
+    
+    --primary: #EABFC3;
+    --primary-dark: #d4a8ac;
+    --primary-light: #f5d5d9;
+    
+    --accent: #EAC077;
+    --accent-light: #F2CB8E;
+    
+    --bg-main: #FFFCFA;
+    --bg-sidebar: #FFF8F5;
+    --bg-card: #FFFAF8;
+    --bg-hover: rgba(234, 191, 195, 0.1);
+    --bg-active: rgba(234, 191, 195, 0.2);
+    
+    --text-primary: #5C4446;
+    --text-secondary: #8B6F72;
+    --text-muted: #B8A0A3;
+    --text-light: #D4C0C3;
+    
+    --border: #F0E0E2;
+    --border-light: #F8ECEE;
+    
+    --shadow-soft: 0 4px 20px rgba(234, 191, 195, 0.15);
+    --shadow-card: 0 6px 24px rgba(92, 68, 70, 0.06);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+
+  /* 主題二：窗紗香灰（紫灰系） */
+  [data-theme="chuangsha"] {
+    --primary: #B6A9C8;
+    --primary-dark: #9a8daf;
+    --primary-light: #d4ccdf;
+    --accent: #A09BC3;
+    --accent-light: #b8b4d0;
+    --bg-main: #F8F6FA;
+    --bg-sidebar: #F2EFF5;
+    --bg-card: #FAF8FB;
+    --bg-hover: rgba(182, 169, 200, 0.1);
+    --bg-active: rgba(182, 169, 200, 0.2);
+    --text-primary: #4A4458;
+    --text-secondary: #7A7288;
+    --text-muted: #A8A0B8;
+    --text-light: #C8C0D4;
+    --border: #E0DAE8;
+    --border-light: #EDE8F2;
+    --shadow-soft: 0 4px 20px rgba(182, 169, 200, 0.15);
+    --shadow-card: 0 6px 24px rgba(74, 68, 88, 0.06);
+  }
+
+  /* 主題三：遠山素影（藍灰系） */
+  [data-theme="yuanshan"] {
+    --primary: #A8BEDF;
+    --primary-dark: #8ba4cf;
+    --primary-light: #c5d4ea;
+    --accent: #C7D5E8;
+    --accent-light: #d8e2f0;
+    --bg-main: #F5F7FA;
+    --bg-sidebar: #ECF0F5;
+    --bg-card: #F8FAFC;
+    --bg-hover: rgba(168, 190, 223, 0.1);
+    --bg-active: rgba(168, 190, 223, 0.2);
+    --text-primary: #4A5060;
+    --text-secondary: #7A8090;
+    --text-muted: #A8B0C0;
+    --text-light: #C8D0D8;
+    --border: #D8DFE8;
+    --border-light: #E8EDF2;
+    --shadow-soft: 0 4px 20px rgba(168, 190, 223, 0.15);
+    --shadow-card: 0 6px 24px rgba(74, 80, 96, 0.06);
+  }
+
+  /* 主題四：桃枝照水（粉綠系） */
+  [data-theme="taozhi"] {
+    --primary: #E6A6AC;
+    --primary-dark: #cf8a91;
+    --primary-light: #f0c4c8;
+    --accent: #A1C2B1;
+    --accent-light: #b8d4c5;
+    --bg-main: #FEFAFA;
+    --bg-sidebar: #F5F0F0;
+    --bg-card: #FAF5F5;
+    --bg-hover: rgba(230, 166, 172, 0.1);
+    --bg-active: rgba(230, 166, 172, 0.2);
+    --text-primary: #5C484A;
+    --text-secondary: #8B787A;
+    --text-muted: #B8A8AA;
+    --text-light: #D4C4C6;
+    --border: #F0E0E2;
+    --border-light: #F8ECEE;
+    --shadow-soft: 0 4px 20px rgba(230, 166, 172, 0.15);
+    --shadow-card: 0 6px 24px rgba(92, 72, 74, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", "STSong", serif;
+    background: var(--bg-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== 語言切換器 ===== */
+  .lang-switcher {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 1000;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    padding: 10px 14px;
+    display: flex;
+    gap: 6px;
+    border: 1.5px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+  
+  .lang-btn {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1.5px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  
+  .lang-btn:hover {
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+  }
+  
+  .lang-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  /* 控制面板 */
+  .controls {
+    position: fixed;
+    top: 56px;
+    right: 12px;
+    z-index: 1000;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 210px;
+    font-size: 13px;
+    border: 1.5px solid var(--border);
+  }
+  
+  .controls h4 {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  
+  .btn-group {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  
+  .btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--bg-main);
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  
+  .btn:hover { 
+    border-color: var(--primary); 
+    color: var(--text-primary);
+  }
+  .btn.active { 
+    background: var(--primary); 
+    color: #fff; 
+    border-color: var(--primary); 
+  }
+
+  /* 外框 */
+  .preview-frame {
+    margin: 70px auto 30px;
+    background: var(--bg-main);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: width 0.3s ease;
+  }
+  
+  .mode-desktop .preview-frame { width: 1280px; }
+  .mode-tablet .preview-frame { width: 768px; }
+  .mode-mobile .preview-frame { width: 375px; }
+
+  /* ===== LAYOUT ===== */
+  .layout {
+    display: flex;
+    min-height: 700px;
+  }
+  
+  /* ===== 側邊欄：國風版 ===== */
+  .sidebar {
+    width: 232px;
+    background: var(--bg-sidebar);
+    border-right: 1.5px solid var(--border);
+    padding: 24px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 2px;
+  }
+  
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 0 4px;
+  }
+  
+  .sidebar-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--fan-tao-pink), var(--fei-yu-xia));
+    border-radius: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(234, 191, 195, 0.4);
+  }
+  
+  .sidebar-logo-text {
+    font-size: 22px;
+    font-family: "Noto Serif SC", serif;
+    color: var(--text-primary);
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  .sidebar-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 0 4px;
+    margin-bottom: 20px;
+    margin-top: -2px;
+  }
+  
+  .sidebar-section {
+    margin-bottom: 4px;
+  }
+  
+  .sidebar-section-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0 8px;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  
+  .sidebar-item {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2px;
+  }
+  
+  .sidebar-item:hover { 
+    background: var(--bg-hover); 
+    color: var(--text-primary); 
+  }
+  
+  .sidebar-item.active { 
+    background: var(--bg-active); 
+    color: var(--text-primary); 
+    font-weight: 600;
+    box-shadow: 0 0 0 1.5px var(--primary-light);
+  }
+  
+  .sidebar-icon {
+    width: 20px;
+    height: 20px;
+    background: var(--border-light);
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  
+  .sidebar-item.active .sidebar-icon {
+    background: var(--primary-light);
+  }
+  
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 10px 6px;
+  }
+  
+  .sidebar-logout {
+    margin-top: auto;
+    padding-top: 12px;
+  }
+  
+  .sidebar-logout-btn {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.15s;
+  }
+  
+  .sidebar-logout-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+  }
+  
+  .sidebar-footer {
+    font-size: 10px;
+    color: var(--text-light);
+    padding: 12px 8px 0;
+    margin-top: 8px;
+  }
+
+  /* ===== 主內容區 ===== */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  
+  .topbar {
+    height: 52px;
+    border-bottom: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    justify-content: space-between;
+  }
+  
+  .topbar-title {
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+  
+  .topbar-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .topbar-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--bg-hover);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .topbar-btn:hover {
+    background: var(--bg-active);
+  }
+
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+  }
+
+  /* ===== HERO：國風版 ===== */
+  .hero {
+    text-align: center;
+    padding: 36px 16px 24px;
+    position: relative;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(234, 191, 195, 0.2) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  
+  /* ===== Chuyue 藝術手寫體 ===== */
+  .brand-script {
+    font-family: "Great Vibes", cursive;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+
+  .hero-logo {
+    font-size: 64px;
+    font-family: "Noto Serif SC", serif;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    position: relative;
+  }
+
+  .hero-logo .brand-script {
+    font-size: 72px;
+    display: block;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  
+  .hero-tag {
+    font-size: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  
+  .hero-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  
+  .hero-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .btn-primary {
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--primary), var(--fei-yu-xia));
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(234, 191, 195, 0.4);
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(234, 191, 195, 0.5);
+  }
+  
+  .btn-ghost {
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  
+  .btn-ghost:hover {
+    border-color: var(--primary);
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
+
+  /* ===== 狀態概覽條 ===== */
+  .status-bar {
+    max-width: 720px;
+    margin: 0 auto 20px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  
+  .status-dot.active {
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(234, 192, 119, 0.5);
+  }
+  
+  .status-value {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* ===== 公告橫幅 ===== */
+  .announcement {
+    max-width: 720px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, rgba(234, 191, 195, 0.15), rgba(245, 213, 217, 0.1));
+    border: 1.5px solid var(--primary-light);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .announcement:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .announcement-badge {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  
+  .announcement-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    flex: 1;
+  }
+  
+  .announcement-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: var(--bg-hover);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  
+  .announcement-close:hover {
+    background: var(--primary-light);
+    color: var(--text-secondary);
+  }
+
+  /* ===== 繼續遊玩 ===== */
+  .zone-recent {
+    max-width: 720px;
+    margin: 0 auto 28px;
+  }
+  
+  .zone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  
+  .zone-title {
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  .zone-link {
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .zone-link:hover { color: var(--text-secondary); }
+  
+  .recent-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    transition: all 0.3s;
+  }
+  
+  .recent-card:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+  }
+  
+  .recent-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  
+  .recent-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border: 3px solid var(--border-light);
+    box-shadow: 0 2px 10px rgba(234, 191, 195, 0.3);
+  }
+  
+  .recent-mood {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-hover);
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  
+  .recent-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .recent-name {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  
+  .recent-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  
+  .recent-summary {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: var(--bg-main);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+  }
+  
+  .recent-progress {
+    margin-bottom: 12px;
+  }
+  
+  .progress-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .progress-track {
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+  
+  .recent-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: auto;
+    flex-wrap: wrap;
+  }
+  
+  .recent-tag {
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  
+  .recent-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .recent-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  
+  .recent-btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--fei-yu-xia));
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .recent-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(234, 191, 195, 0.4);
+  }
+  
+  .recent-btn-ghost {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text-secondary);
+  }
+  
+  .recent-btn-ghost:hover {
+    border-color: var(--primary);
+    color: var(--text-primary);
+    background: var(--bg-hover);
+  }
+
+  /* ===== 推薦作品 ===== */
+  .recommend-section {
+    max-width: 720px;
+    margin: 0 auto 32px;
+  }
+  
+  .recommend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .recommend-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .category-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  
+  .category-tab {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--bg-hover);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  
+  .category-tab:hover {
+    color: var(--text-secondary);
+    background: var(--bg-active);
+  }
+  
+  .category-tab.active {
+    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  .recommend-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  
+  .game-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  
+  .game-card:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .game-cover {
+    width: 100%;
+    height: 140px;
+    background: linear-gradient(135deg, var(--ying-xi-yellow), var(--hu-po-yellow));
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .game-cover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.1) 100%);
+  }
+  
+  .game-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    z-index: 1;
+  }
+  
+  .game-badge.hot {
+    background: rgba(234, 191, 195, 0.9);
+    color: #fff;
+  }
+  
+  .game-badge.new {
+    background: rgba(234, 192, 119, 0.9);
+    color: #fff;
+  }
+  
+  .game-info {
+    padding: 14px;
+  }
+  
+  .game-name {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  
+  .game-tags {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .game-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg-hover);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  
+  .game-stats {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  
+  .game-stat {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  
+  .game-enter {
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .game-card:hover .game-enter {
+    color: var(--primary-dark);
+  }
+
+  /* ===== 功能特性 ===== */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 720px;
+    margin: 0 auto 28px;
+  }
+  
+  .feature-card {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px 18px;
+    transition: all 0.3s;
+  }
+  
+  .feature-card:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary-light), var(--fei-yu-xia));
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .feature-title {
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  
+  .feature-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ===== 頁腳 ===== */
+  .footer {
+    text-align: center;
+    padding: 28px;
+    border-top: 1.5px solid var(--border);
+    color: var(--text-light);
+    font-size: 12px;
+  }
+
+  /* ===== 新增功能建議 ===== */
+  .suggestion-box {
+    max-width: 720px;
+    margin: 24px auto;
+    background: var(--bg-card);
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+  }
+  
+  .suggestion-title {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  
+  .suggestion-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .suggestion-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    background: var(--bg-main);
+    border-radius: 8px;
+    border: 1.5px solid var(--border-light);
+    transition: all 0.2s;
+  }
+  
+  .suggestion-item:hover {
+    border-color: var(--primary-light);
+    background: var(--bg-hover);
+  }
+  
+  .suggestion-icon {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--primary-light), var(--fei-yu-xia));
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  
+  .suggestion-name {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  
+  .suggestion-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* ===== 平板適配 ===== */
+  .mode-tablet .sidebar {
+    width: 68px;
+    padding: 20px 12px;
+    align-items: center;
+  }
+  .mode-tablet .sidebar-brand { justify-content: center; }
+  .mode-tablet .sidebar-logo-text,
+  .mode-tablet .sidebar-subtitle,
+  .mode-tablet .sidebar-section-title,
+  .mode-tablet .sidebar-footer {
+    display: none;
+  }
+  .mode-tablet .sidebar-item {
+    padding: 12px;
+    justify-content: center;
+  }
+  .mode-tablet .sidebar-item span:not(.sidebar-icon) { display: none; }
+  .mode-tablet .sidebar-divider { width: 32px; margin: 6px 0; }
+  .mode-tablet .sidebar-logout-btn span:not(.sidebar-icon) { display: none; }
+  .mode-tablet .sidebar-logout-btn { justify-content: center; padding: 12px; }
+  .mode-tablet .hero-logo { font-size: 52px; }
+  .mode-tablet .recommend-grid { grid-template-columns: repeat(2, 1fr); }
+  .mode-tablet .features { grid-template-columns: repeat(2, 1fr); }
+  .mode-tablet .suggestion-list { grid-template-columns: repeat(2, 1fr); }
+  .mode-tablet .status-bar { gap: 16px; padding: 12px 16px; }
+
+  /* ===== 手機適配 ===== */
+  .mode-mobile .layout { flex-direction: column; }
+  .mode-mobile .sidebar { display: none; }
+  .mode-mobile .mobile-nav { display: flex !important; }
+  .mode-mobile .mobile-header { display: flex !important; }
+  .mode-mobile .topbar { display: none; }
+  .mode-mobile .content { padding: 16px; padding-bottom: 80px; }
+  .mode-mobile .hero { padding: 28px 12px 20px; }
+  .mode-mobile .hero-logo { font-size: 42px; margin-bottom: 12px; }
+  .mode-mobile .hero-tag { font-size: 16px; }
+  .mode-mobile .hero-actions { flex-direction: column; align-items: center; }
+  .mode-mobile .btn-primary,
+  .mode-mobile .btn-ghost { width: 100%; max-width: 260px; }
+  .mode-mobile .status-bar { flex-direction: column; gap: 8px; padding: 12px; }
+  .mode-mobile .announcement { padding: 12px 14px; }
+  .mode-mobile .recent-card { flex-direction: column; text-align: center; }
+  .mode-mobile .recent-left { flex-direction: row; align-items: center; }
+  .mode-mobile .recent-avatar { width: 48px; height: 48px; }
+  .mode-mobile .recent-actions { margin-left: 0; margin-top: 10px; width: 100%; }
+  .mode-mobile .recent-actions .recent-btn { flex: 1; }
+  .mode-mobile .recommend-grid { grid-template-columns: 1fr; gap: 12px; }
+  .mode-mobile .features { grid-template-columns: 1fr; gap: 10px; }
+  .mode-mobile .suggestion-list { grid-template-columns: 1fr; }
+  .mode-mobile .suggestion-box { margin: 16px 0; }
+  .mode-mobile .recommend-header { flex-direction: column; }
+  .mode-mobile .category-tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .mode-mobile .lang-switcher {
+    top: 8px;
+    right: 8px;
+    padding: 6px 8px;
+    gap: 3px;
+  }
+  .mode-mobile .lang-btn {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  /* 手機底部導航 */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--bg-sidebar);
+    border-top: 1.5px solid var(--border);
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 12px 8px;
+    z-index: 100;
+  }
+  
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .mobile-nav-item.active { color: var(--primary-dark); }
+  
+  .mobile-nav-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--bg-hover);
+    border-radius: 5px;
+  }
+  
+  .mobile-nav-item.active .mobile-nav-icon {
+    background: var(--primary-light);
+  }
+
+  /* 手機頂部 */
+  .mobile-header {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    height: 48px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  
+  .mobile-menu-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  
+  .mobile-menu-btn span {
+    width: 20px;
+    height: 2px;
+    background: var(--text-muted);
+    border-radius: 2px;
+  }
+
+  .note {
+    text-align: center;
+    padding: 14px;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="mode-desktop">
+
+<!-- 語言切換器 -->
+<div class="lang-switcher">
+  <button class="lang-btn active" data-lang="zh-TW" onclick="setLang('zh-TW')">繁中</button>
+  <button class="lang-btn" data-lang="zh-CN" onclick="setLang('zh-CN')">简中</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" data-lang="vi" onclick="setLang('vi')">VN</button>
+</div>
+
+<!-- 控制面板 -->
+<div class="controls">
+  <div>
+    <h4 data-i18n="screen_mode">螢幕模式</h4>
+    <div class="btn-group">
+      <button class="btn active" onclick="setMode('desktop')" data-i18n="desktop">電腦</button>
+      <button class="btn" onclick="setMode('tablet')" data-i18n="tablet">平板</button>
+      <button class="btn" onclick="setMode('mobile')" data-i18n="mobile">手機</button>
+    </div>
+  </div>
+  <div style="margin-top:12px;">
+    <h4 data-i18n="theme">配色主題</h4>
+    <div class="btn-group theme-group">
+      <button class="btn active" onclick="setTheme('xiuri')" title="繡日搖風">繡日</button>
+      <button class="btn" onclick="setTheme('chuangsha')" title="窗紗香灰">窗紗</button>
+      <button class="btn" onclick="setTheme('yuanshan')" title="遠山素影">遠山</button>
+      <button class="btn" onclick="setTheme('taozhi')" title="桃枝照水">桃枝</button>
+    </div>
+  </div>
+</div>
+
+<div class="note" data-i18n="theme_desc">國風主題 · 幡桃粉/迎曦黃/琥珀/琥珀黃/緋羽霞 · 四語言切換</div>
+
+<!-- 預覽外框 -->
+<div class="preview-frame">
+
+  <!-- 手機頂部 -->
+  <div class="mobile-header">
+    <div class="brand-script" style="font-size:22px; color:var(--text-primary);">Chuyue</div>
+    <div class="mobile-menu-btn">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <div class="layout">
+    
+    <!-- 側邊欄 -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo-icon"></div>
+        <span class="sidebar-logo-text brand-script">Chuyue</span>
+      </div>
+      <div class="sidebar-subtitle" data-i18n="tagline">文字模擬器</div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-section-title" data-i18n="game_section">遊戲</div>
+        <div class="sidebar-item active">
+          <div class="sidebar-icon"></div>
+          <span data-i18n="game_center">遊戲中心</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon"></div>
+          <span data-i18n="wish_board">許願看板</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon"></div>
+          <span data-i18n="settings">系統設定</span>
+        </div>
+      </div>
+      
+      <div class="sidebar-divider"></div>
+      
+      <div class="sidebar-section">
+        <div class="sidebar-section-title" data-i18n="personal_section">個人</div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon"></div>
+          <span data-i18n="member">會員中心</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon"></div>
+          <span data-i18n="changelog">更新日誌</span>
+        </div>
+        <div class="sidebar-item">
+          <div class="sidebar-icon"></div>
+          <span data-i18n="contact">聯繫開發者</span>
+        </div>
+      </div>
+      
+      <div class="sidebar-logout">
+        <div class="sidebar-logout-btn">
+          <div class="sidebar-icon" style="background:var(--fei-yu-xia);"></div>
+          <span data-i18n="logout">登出</span>
+        </div>
+        <div class="sidebar-footer">&copy; 2025 Chuyue</div>
+      </div>
+    </aside>
+    
+    <!-- 主內容區 -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title" data-i18n="home">首頁</div>
+        <div class="topbar-actions">
+          <button class="topbar-btn" title="通知"></button>
+          <button class="topbar-btn" title="搜尋"></button>
+        </div>
+      </header>
+      
+      <div class="content">
+        
+        <!-- Hero -->
+        <section class="hero">
+          <div class="hero-logo">
+            <span class="brand-script">Chuyue</span>
+            <span style="display:block; font-size:16px; font-weight:400; letter-spacing:6px; margin-top:8px;" data-i18n="tagline">文字模擬器</span>
+          </div>
+          <p class="hero-tag" data-i18n="hero_tag">在文字裡，遇見另一個世界</p>
+          <p class="hero-sub" data-i18n="hero_sub">把你的純文本設定，變成一個點得動的世界</p>
+          <div class="hero-actions">
+            <button class="btn-primary" data-i18n="enter_game">進入遊戲中心</button>
+            <button class="btn-ghost" data-i18n="system_settings">系統設定</button>
+          </div>
+        </section>
+        
+        <!-- 狀態概覽條 -->
+        <div class="status-bar">
+          <div class="status-item">
+            <div class="status-dot active"></div>
+            <span data-i18n="today_played">今日遊玩 <span class="status-value">45 分鐘</span></span>
+          </div>
+          <div class="status-item">
+            <div class="status-dot"></div>
+            <span data-i18n="current_round">當前回合 <span class="status-value">第 12 回合</span></span>
+          </div>
+          <div class="status-item">
+            <div class="status-dot"></div>
+            <span data-i18n="played_works">已玩作品 <span class="status-value">3 部</span></span>
+          </div>
+          <div class="status-item">
+            <div class="status-dot"></div>
+            <span data-i18n="total_time">總時長 <span class="status-value">48 小時</span></span>
+          </div>
+        </div>
+        
+        <!-- 公告橫幅 -->
+        <div class="announcement">
+          <span class="announcement-badge" data-i18n="announcement">公告</span>
+          <span class="announcement-text" data-i18n="announcement_text">新作品《賽博朋克 2077》已上線，輸入「我想當傭兵」即可開始體驗</span>
+          <button class="announcement-close">&times;</button>
+        </div>
+        
+        <!-- 繼續遊玩 -->
+        <div class="zone-recent">
+          <div class="zone-header">
+            <span class="zone-title" data-i18n="continue_playing">繼續遊玩</span>
+            <span class="zone-link" data-i18n="view_all">查看全部 &rarr;</span>
+          </div>
+          <div class="recent-card">
+            <div class="recent-left">
+              <div class="recent-avatar"></div>
+              <div class="recent-mood" data-i18n="mood_good">😊 心情尚好</div>
+            </div>
+            <div class="recent-info">
+              <div class="recent-name" data-i18n="recent_game_name">高自由現代人生-月份版</div>
+              <div class="recent-meta" data-i18n="recent_meta">上次遊玩：2 小時前 · 杭州 · 第 12 回合</div>
+              <div class="recent-summary" data-i18n="recent_summary">
+                你剛剛從公司辭職，決定開一家獨立咖啡店。目前資金：¥25,000。
+              </div>
+              <div class="recent-progress">
+                <div class="progress-label">
+                  <span data-i18n="round_progress">回合進度</span>
+                  <span>12 / 30</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width: 40%;"></div>
+                </div>
+              </div>
+              <div class="recent-bar">
+                <span class="recent-tag" data-i18n="tag_modern">現代</span>
+                <span class="recent-tag" data-i18n="tag_ongoing">進行中</span>
+                <div class="recent-actions">
+                  <button class="recent-btn recent-btn-ghost" data-i18n="restart">重新開始</button>
+                  <button class="recent-btn recent-btn-primary" data-i18n="continue">繼續遊戲</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 推薦作品 -->
+        <div class="recommend-section">
+          <div class="recommend-header">
+            <div class="recommend-title-group">
+              <span class="zone-title" data-i18n="recommended">推薦作品</span>
+              <div class="category-tabs">
+                <span class="category-tab active" data-i18n="cat_all">全部</span>
+                <span class="category-tab" data-i18n="cat_ancient">古代</span>
+                <span class="category-tab" data-i18n="cat_modern">現代</span>
+                <span class="category-tab" data-i18n="cat_scifi">科幻</span>
+                <span class="category-tab" data-i18n="cat_xianxia">仙俠</span>
+                <span class="category-tab" data-i18n="cat_campus">校園</span>
+              </div>
+            </div>
+            <span class="zone-link" data-i18n="more_works">更多作品 &rarr;</span>
+          </div>
+          <div class="recommend-grid">
+            <div class="game-card">
+              <div class="game-cover">
+                <span class="game-badge hot" data-i18n="badge_hot">熱門</span>
+              </div>
+              <div class="game-info">
+                <div class="game-name" data-i18n="game_ancient">古代人生</div>
+                <div class="game-tags">
+                  <span class="game-tag" data-i18n="tag_ancient">古代</span>
+                  <span class="game-tag" data-i18n="tag_official">官場</span>
+                </div>
+                <div class="game-stats">
+                  <span class="game-stat">👁 12.3k</span>
+                  <span class="game-stat">❤️ 892</span>
+                </div>
+                <div class="game-enter" data-i18n="play_now">進入遊玩 &rarr;</div>
+              </div>
+            </div>
+            <div class="game-card">
+              <div class="game-cover">
+                <span class="game-badge new" data-i18n="badge_new">新品</span>
+              </div>
+              <div class="game-info">
+                <div class="game-name" data-i18n="game_cyberpunk">賽博朋克 2077</div>
+                <div class="game-tags">
+                  <span class="game-tag" data-i18n="tag_scifi">科幻</span>
+                  <span class="game-tag" data-i18n="tag_action">動作</span>
+                </div>
+                <div class="game-stats">
+                  <span class="game-stat">👁 3.1k</span>
+                  <span class="game-stat">❤️ 156</span>
+                </div>
+                <div class="game-enter" data-i18n="play_now">進入遊玩 &rarr;</div>
+              </div>
+            </div>
+            <div class="game-card">
+              <div class="game-cover"></div>
+              <div class="game-info">
+                <div class="game-name" data-i18n="game_xianxia">仙俠奇緣</div>
+                <div class="game-tags">
+                  <span class="game-tag" data-i18n="tag_xianxia">仙俠</span>
+                  <span class="game-tag" data-i18n="tag_cultivation">修真</span>
+                </div>
+                <div class="game-stats">
+                  <span class="game-stat">👁 8.7k</span>
+                  <span class="game-stat">❤️ 634</span>
+                </div>
+                <div class="game-enter" data-i18n="play_now">進入遊玩 &rarr;</div>
+              </div>
+            </div>
+            <div class="game-card">
+              <div class="game-cover"></div>
+              <div class="game-info">
+                <div class="game-name" data-i18n="game_campus">校園時光</div>
+                <div class="game-tags">
+                  <span class="game-tag" data-i18n="tag_modern">現代</span>
+                  <span class="game-tag" data-i18n="tag_youth">青春</span>
+                </div>
+                <div class="game-stats">
+                  <span class="game-stat">👁 5.2k</span>
+                  <span class="game-stat">❤️ 421</span>
+                </div>
+                <div class="game-enter" data-i18n="play_now">進入遊玩 &rarr;</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 功能特性 -->
+        <section class="features">
+          <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-title" data-i18n="feat_freedom">自由養成</div>
+            <div class="feature-desc" data-i18n="feat_freedom_desc">由你定義角色的成長路徑，每一次選擇都真實影響後續走向。</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-title" data-i18n="feat_text">文字驅動</div>
+            <div class="feature-desc" data-i18n="feat_text_desc">以純文字規則為核心，模型負責把這個世界演活，你只需做決定。</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-title" data-i18n="feat_save">各存各檔</div>
+            <div class="feature-desc" data-i18n="feat_save_desc">每位玩家擁有獨立存檔，互不干擾，進度只屬於你自己。</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon"></div>
+            <div class="feature-title" data-i18n="feat_interact">多功能互動</div>
+            <div class="feature-desc" data-i18n="feat_interact_desc">文字規則化作可點的按鈕與狀態面板，每一步操作即時反饋。</div>
+          </div>
+        </section>
+        
+        <!-- 新增功能建議 -->
+        <div class="suggestion-box">
+          <div class="suggestion-title" data-i18n="suggestion_title">可考慮新增的主頁功能（供參考）</div>
+          <div class="suggestion-list">
+            <div class="suggestion-item">
+              <div class="suggestion-icon"></div>
+              <div>
+                <div class="suggestion-name" data-i18n="sug_search">全局搜尋</div>
+                <div class="suggestion-desc" data-i18n="sug_search_desc">搜尋作品名、NPC、劇情關鍵詞，快速定位內容</div>
+              </div>
+            </div>
+            <div class="suggestion-item">
+              <div class="suggestion-icon"></div>
+              <div>
+                <div class="suggestion-name" data-i18n="sug_notify">通知中心</div>
+                <div class="suggestion-desc" data-i18n="sug_notify_desc">NPC 動態提醒、系統更新、願望實現推送</div>
+              </div>
+            </div>
+            <div class="suggestion-item">
+              <div class="suggestion-icon"></div>
+              <div>
+                <div class="suggestion-name" data-i18n="sug_quick">快捷創建</div>
+                <div class="suggestion-desc" data-i18n="sug_quick_desc">輸入一句設定，AI 直接生成角色並開始遊戲</div>
+              </div>
+            </div>
+            <div class="suggestion-item">
+              <div class="suggestion-icon"></div>
+              <div>
+                <div class="suggestion-name" data-i18n="sug_achievement">成就牆</div>
+                <div class="suggestion-desc" data-i18n="sug_achievement_desc">展示已解鎖徽章，激勵玩家探索不同路線</div>
+              </div>
+            </div>
+            <div class="suggestion-item">
+              <div class="suggestion-icon"></div>
+              <div>
+                <div class="suggestion-name" data-i18n="sug_market">劇情市集</div>
+                <div class="suggestion-desc" data-i18n="sug_market_desc">玩家分享精彩劇情片段，互相點讚收藏</div>
+              </div>
+            </div>
+            <div class="suggestion-item">
+              <div class="suggestion-icon"></div>
+              <div>
+                <div class="suggestion-name" data-i18n="sug_weekly">每週精選</div>
+                <div class="suggestion-desc" data-i18n="sug_weekly_desc">編輯精選優質作品與攻略，降低選擇困難</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 頁腳 -->
+        <footer class="footer">
+          <div class="brand-script" style="font-size:22px; margin-bottom:6px; color:var(--text-light);">Chuyue</div>
+          <div data-i18n="footer">© 2025 Chuyue · 保留所有權利</div>
+        </footer>
+        
+      </div>
+    </main>
+  </div>
+  
+  <!-- 手機底部導航 -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-item active">
+      <div class="mobile-nav-icon"></div>
+      <span data-i18n="nav_home">首頁</span>
+    </div>
+    <div class="mobile-nav-item">
+      <div class="mobile-nav-icon"></div>
+      <span data-i18n="nav_game">遊戲中心</span>
+    </div>
+    <div class="mobile-nav-item">
+      <div class="mobile-nav-icon"></div>
+      <span data-i18n="nav_wish">許願</span>
+    </div>
+    <div class="mobile-nav-item">
+      <div class="mobile-nav-icon"></div>
+      <span data-i18n="nav_member">會員</span>
+    </div>
+  </nav>
+
+</div>
+
+<script>
+  // ===== 多語言字典 =====
+  const i18n = {
+    'zh-TW': {
+      theme_desc: '國風主題 · 幡桃粉/迎曦黃/琥珀黃/緋羽霞 · 四語言切換',
+      theme: '配色主題',
+      screen_mode: '螢幕模式',
+      desktop: '電腦',
+      tablet: '平板',
+      mobile: '手機',
+      tagline: '文字模擬器',
+      game_section: '遊戲',
+      personal_section: '個人',
+      game_center: '遊戲中心',
+      wish_board: '許願看板',
+      settings: '系統設定',
+      member: '會員中心',
+      changelog: '更新日誌',
+      contact: '聯繫開發者',
+      logout: '登出',
+      home: '首頁',
+      hero_tag: '在文字裡，遇見另一個世界',
+      hero_sub: '把你的純文本設定，變成一個點得動的世界',
+      enter_game: '進入遊戲中心',
+      system_settings: '系統設定',
+      today_played: '今日遊玩',
+      current_round: '當前回合',
+      played_works: '已玩作品',
+      total_time: '總時長',
+      announcement: '公告',
+      announcement_text: '新作品《賽博朋克 2077》已上線，輸入「我想當傭兵」即可開始體驗',
+      continue_playing: '繼續遊玩',
+      view_all: '查看全部 →',
+      mood_good: '😊 心情尚好',
+      recent_game_name: '高自由現代人生-月份版',
+      recent_meta: '上次遊玩：2 小時前 · 杭州 · 第 12 回合',
+      recent_summary: '你剛剛從公司辭職，決定開一家獨立咖啡店。目前資金：¥25,000。',
+      round_progress: '回合進度',
+      restart: '重新開始',
+      continue: '繼續遊戲',
+      tag_modern: '現代',
+      tag_ongoing: '進行中',
+      recommended: '推薦作品',
+      cat_all: '全部',
+      cat_ancient: '古代',
+      cat_modern: '現代',
+      cat_scifi: '科幻',
+      cat_xianxia: '仙俠',
+      cat_campus: '校園',
+      more_works: '更多作品 →',
+      badge_hot: '熱門',
+      badge_new: '新品',
+      game_ancient: '古代人生',
+      game_cyberpunk: '賽博朋克 2077',
+      game_xianxia: '仙俠奇緣',
+      game_campus: '校園時光',
+      tag_ancient: '古代',
+      tag_official: '官場',
+      tag_scifi: '科幻',
+      tag_action: '動作',
+      tag_xianxia: '仙俠',
+      tag_cultivation: '修真',
+      tag_youth: '青春',
+      play_now: '進入遊玩 →',
+      feat_freedom: '自由養成',
+      feat_freedom_desc: '由你定義角色的成長路徑，每一次選擇都真實影響後續走向。',
+      feat_text: '文字驅動',
+      feat_text_desc: '以純文字規則為核心，模型負責把這個世界演活，你只需做決定。',
+      feat_save: '各存各檔',
+      feat_save_desc: '每位玩家擁有獨立存檔，互不干擾，進度只屬於你自己。',
+      feat_interact: '多功能互動',
+      feat_interact_desc: '文字規則化作可點的按鈕與狀態面板，每一步操作即時反饋。',
+      suggestion_title: '可考慮新增的主頁功能（供參考）',
+      sug_search: '全局搜尋',
+      sug_search_desc: '搜尋作品名、NPC、劇情關鍵詞，快速定位內容',
+      sug_notify: '通知中心',
+      sug_notify_desc: 'NPC 動態提醒、系統更新、願望實現推送',
+      sug_quick: '快捷創建',
+      sug_quick_desc: '輸入一句設定，AI 直接生成角色並開始遊戲',
+      sug_achievement: '成就牆',
+      sug_achievement_desc: '展示已解鎖徽章，激勵玩家探索不同路線',
+      sug_market: '劇情市集',
+      sug_market_desc: '玩家分享精彩劇情片段，互相點讚收藏',
+      sug_weekly: '每週精選',
+      sug_weekly_desc: '編輯精選優質作品與攻略，降低選擇困難',
+      footer: '© 2025 Chuyue · 保留所有權利',
+      nav_home: '首頁',
+      nav_game: '遊戲中心',
+      nav_wish: '許願',
+      nav_member: '會員'
+    },
+    'zh-CN': {
+      theme_desc: '国风主题 · 幡桃粉/迎曦黄/琥珀黄/绯羽霞 · 四语言切换',
+      theme: '配色主题',
+      screen_mode: '屏幕模式',
+      desktop: '电脑',
+      tablet: '平板',
+      mobile: '手机',
+      tagline: '文字模拟器',
+      game_section: '游戏',
+      personal_section: '个人',
+      game_center: '游戏中心',
+      wish_board: '许愿看板',
+      settings: '系统设定',
+      member: '会员中心',
+      changelog: '更新日志',
+      contact: '联系开发者',
+      logout: '登出',
+      home: '首页',
+      hero_tag: '在文字里，遇见另一个世界',
+      hero_sub: '把你的纯文本设定，变成一个点得动的世界',
+      enter_game: '进入游戏中心',
+      system_settings: '系统设定',
+      today_played: '今日游玩',
+      current_round: '当前回合',
+      played_works: '已玩作品',
+      total_time: '总时长',
+      announcement: '公告',
+      announcement_text: '新作品《赛博朋克 2077》已上线，输入「我想当佣兵」即可开始体验',
+      continue_playing: '继续游玩',
+      view_all: '查看全部 →',
+      mood_good: '😊 心情尚好',
+      recent_game_name: '高自由现代人生-月份版',
+      recent_meta: '上次游玩：2 小时前 · 杭州 · 第 12 回合',
+      recent_summary: '你刚刚从公司辞职，决定开一家独立咖啡店。目前资金：¥25,000。',
+      round_progress: '回合进度',
+      restart: '重新开始',
+      continue: '继续游戏',
+      tag_modern: '现代',
+      tag_ongoing: '进行中',
+      recommended: '推荐作品',
+      cat_all: '全部',
+      cat_ancient: '古代',
+      cat_modern: '现代',
+      cat_scifi: '科幻',
+      cat_xianxia: '仙侠',
+      cat_campus: '校园',
+      more_works: '更多作品 →',
+      badge_hot: '热门',
+      badge_new: '新品',
+      game_ancient: '古代人生',
+      game_cyberpunk: '赛博朋克 2077',
+      game_xianxia: '仙侠奇缘',
+      game_campus: '校园时光',
+      tag_ancient: '古代',
+      tag_official: '官场',
+      tag_scifi: '科幻',
+      tag_action: '动作',
+      tag_xianxia: '仙侠',
+      tag_cultivation: '修真',
+      tag_youth: '青春',
+      play_now: '进入游玩 →',
+      feat_freedom: '自由养成',
+      feat_freedom_desc: '由你定义角色的成长路径，每一次选择都真实影响后续走向。',
+      feat_text: '文字驱动',
+      feat_text_desc: '以纯文字规则为核心，模型负责把这个世界演活，你只需做决定。',
+      feat_save: '各存各档',
+      feat_save_desc: '每位玩家拥有独立存档，互不干扰，进度只属于你自己。',
+      feat_interact: '多功能互动',
+      feat_interact_desc: '文字规则化作可点的按钮与状态面板，每一步操作即时反馈。',
+      suggestion_title: '可考虑新增的主页功能（供参考）',
+      sug_search: '全局搜索',
+      sug_search_desc: '搜索作品名、NPC、剧情关键词，快速定位内容',
+      sug_notify: '通知中心',
+      sug_notify_desc: 'NPC 动态提醒、系统更新、愿望实现推送',
+      sug_quick: '快捷创建',
+      sug_quick_desc: '输入一句设定，AI 直接生成角色并开始游戏',
+      sug_achievement: '成就墙',
+      sug_achievement_desc: '展示已解锁徽章，激励玩家探索不同路线',
+      sug_market: '剧情市集',
+      sug_market_desc: '玩家分享精彩剧情片段，互相点赞收藏',
+      sug_weekly: '每周精选',
+      sug_weekly_desc: '编辑精选优质作品与攻略，降低选择困难',
+      footer: '© 2025 Chuyue · 保留所有权利',
+      nav_home: '首页',
+      nav_game: '游戏中心',
+      nav_wish: '许愿',
+      nav_member: '会员'
+    },
+    'en': {
+      theme_desc: 'Chinese Style Theme · Pink/Yellow/Gold/Rose · 4 Languages',
+      theme: 'Color Theme',
+      screen_mode: 'Screen Mode',
+      desktop: 'Desktop',
+      tablet: 'Tablet',
+      mobile: 'Mobile',
+      tagline: 'Text Simulator',
+      game_section: 'Game',
+      personal_section: 'Personal',
+      game_center: 'Game Center',
+      wish_board: 'Wish Board',
+      settings: 'Settings',
+      member: 'Member Center',
+      changelog: 'Changelog',
+      contact: 'Contact Dev',
+      logout: 'Logout',
+      home: 'Home',
+      hero_tag: 'In text, meet another world',
+      hero_sub: 'Turn your plain text settings into an interactive world',
+      enter_game: 'Enter Game Center',
+      system_settings: 'Settings',
+      today_played: 'Played today',
+      current_round: 'Current round',
+      played_works: 'Works played',
+      total_time: 'Total time',
+      announcement: 'Announcement',
+      announcement_text: 'New work "Cyberpunk 2077" is live! Type "I want to be a mercenary" to start',
+      continue_playing: 'Continue Playing',
+      view_all: 'View all →',
+      mood_good: '😊 Feeling good',
+      recent_game_name: 'Modern Life - Monthly Edition',
+      recent_meta: 'Last played: 2 hours ago · Hangzhou · Round 12',
+      recent_summary: 'You just quit your job and decided to open an independent coffee shop. Current funds: ¥25,000.',
+      round_progress: 'Round progress',
+      restart: 'Restart',
+      continue: 'Continue',
+      tag_modern: 'Modern',
+      tag_ongoing: 'Ongoing',
+      recommended: 'Recommended',
+      cat_all: 'All',
+      cat_ancient: 'Ancient',
+      cat_modern: 'Modern',
+      cat_scifi: 'Sci-Fi',
+      cat_xianxia: 'Xianxia',
+      cat_campus: 'Campus',
+      more_works: 'More works →',
+      badge_hot: 'Hot',
+      badge_new: 'New',
+      game_ancient: 'Ancient Life',
+      game_cyberpunk: 'Cyberpunk 2077',
+      game_xianxia: 'Xianxia Romance',
+      game_campus: 'Campus Days',
+      tag_ancient: 'Ancient',
+      tag_official: 'Official',
+      tag_scifi: 'Sci-Fi',
+      tag_action: 'Action',
+      tag_xianxia: 'Xianxia',
+      tag_cultivation: 'Cultivation',
+      tag_youth: 'Youth',
+      play_now: 'Play now →',
+      feat_freedom: 'Freedom',
+      feat_freedom_desc: 'Define your character\'s growth path. Every choice truly affects the future.',
+      feat_text: 'Text Driven',
+      feat_text_desc: 'Pure text rules at the core. The model brings the world to life, you just decide.',
+      feat_save: 'Individual Saves',
+      feat_save_desc: 'Each player has independent saves. No interference, progress is yours alone.',
+      feat_interact: 'Rich Interaction',
+      feat_interact_desc: 'Text rules become clickable buttons and status panels. Instant feedback.',
+      suggestion_title: 'Suggested New Features',
+      sug_search: 'Global Search',
+      sug_search_desc: 'Search work names, NPCs, plot keywords for quick navigation',
+      sug_notify: 'Notifications',
+      sug_notify_desc: 'NPC updates, system alerts, wish fulfillment push',
+      sug_quick: 'Quick Create',
+      sug_quick_desc: 'Type a sentence, AI generates a character and starts the game',
+      sug_achievement: 'Achievement Wall',
+      sug_achievement_desc: 'Display unlocked badges to motivate exploring different paths',
+      sug_market: 'Story Market',
+      sug_market_desc: 'Players share amazing plot clips, like and collect each other\'s',
+      sug_weekly: 'Weekly Picks',
+      sug_weekly_desc: 'Editor-curated quality works and guides to reduce choice paralysis',
+      footer: '© 2025 Chuyue · All rights reserved',
+      nav_home: 'Home',
+      nav_game: 'Games',
+      nav_wish: 'Wish',
+      nav_member: 'Member'
+    },
+    'vi': {
+      theme_desc: 'Chủ đề Phong cách Trung Hoa · Hồng/Vàng/Vàng hổ phách/Hồng nhạt · 4 ngôn ngữ',
+      theme: 'Chủ đề màu',
+      screen_mode: 'Chế độ màn hình',
+      desktop: 'Máy tính',
+      tablet: 'Máy tính bảng',
+      mobile: 'Di động',
+      tagline: 'Mô phỏng Văn bản',
+      game_section: 'Trò chơi',
+      personal_section: 'Cá nhân',
+      game_center: 'Trung tâm Trò chơi',
+      wish_board: 'Bảng Ước nguyện',
+      settings: 'Cài đặt',
+      member: 'Trung tâm Thành viên',
+      changelog: 'Nhật ký cập nhật',
+      contact: 'Liên hệ Dev',
+      logout: 'Đăng xuất',
+      home: 'Trang chủ',
+      hero_tag: 'Trong văn tự, gặp gỡ một thế giới khác',
+      hero_sub: 'Biến cài đặt văn bản thuần túy của bạn thành một thế giới tương tác',
+      enter_game: 'Vào Trung tâm Trò chơi',
+      system_settings: 'Cài đặt',
+      today_played: 'Chơi hôm nay',
+      current_round: 'Vòng hiện tại',
+      played_works: 'Tác phẩm đã chơi',
+      total_time: 'Tổng thời gian',
+      announcement: 'Thông báo',
+      announcement_text: 'Tác phẩm mới "Cyberpunk 2077" đã ra mắt! Nhập "Tôi muốn làm lính đánh thuê" để bắt đầu',
+      continue_playing: 'Tiếp tục Chơi',
+      view_all: 'Xem tất cả →',
+      mood_good: '😊 Tâm trạng tốt',
+      recent_game_name: 'Cuộc sống Hiện đại - Phiên bản Tháng',
+      recent_meta: 'Chơi lần cuối: 2 giờ trước · Hàng Châu · Vòng 12',
+      recent_summary: 'Bạn vừa nghỉ việc và quyết định mở một quán cà phê độc lập. Vốn hiện tại: ¥25.000.',
+      round_progress: 'Tiến độ vòng',
+      restart: 'Bắt đầu lại',
+      continue: 'Tiếp tục',
+      tag_modern: 'Hiện đại',
+      tag_ongoing: 'Đang chơi',
+      recommended: 'Đề xuất',
+      cat_all: 'Tất cả',
+      cat_ancient: 'Cổ đại',
+      cat_modern: 'Hiện đại',
+      cat_scifi: 'Khoa học viễn tưởng',
+      cat_xianxia: 'Tiên hiệp',
+      cat_campus: 'Trường học',
+      more_works: 'Thêm tác phẩm →',
+      badge_hot: 'Hot',
+      badge_new: 'Mới',
+      game_ancient: 'Cuộc sống Cổ đại',
+      game_cyberpunk: 'Cyberpunk 2077',
+      game_xianxia: 'Duyên Tiên Hiệp',
+      game_campus: 'Thời gian Trường học',
+      tag_ancient: 'Cổ đại',
+      tag_official: 'Quan trường',
+      tag_scifi: 'Khoa học viễn tưởng',
+      tag_action: 'Hành động',
+      tag_xianxia: 'Tiên hiệp',
+      tag_cultivation: 'Tu chân',
+      tag_youth: 'Thanh xuân',
+      play_now: 'Chơi ngay →',
+      feat_freedom: 'Tự do Phát triển',
+      feat_freedom_desc: 'Bạn định nghĩa lộ trình phát triển nhân vật. Mỗi lựa chọn thực sự ảnh hưởng tương lai.',
+      feat_text: 'Văn bản Điều khiển',
+      feat_text_desc: 'Quy tắc văn bản thuần túy làm cốt lõi. Mô hình làm sống động thế giới, bạn chỉ cần quyết định.',
+      feat_save: 'Lưu Riêng biệt',
+      feat_save_desc: 'Mỗi người chơi có bản lưu riêng. Không can thiệp, tiến độ chỉ thuộc về bạn.',
+      feat_interact: 'Tương tác Đa chức năng',
+      feat_interact_desc: 'Quy tắc văn bản thành nút bấm và bảng trạng thái. Phản hồi tức thì.',
+      suggestion_title: 'Tính năng Mới Đề xuất',
+      sug_search: 'Tìm kiếm Toàn cục',
+      sug_search_desc: 'Tìm tên tác phẩm, NPC, từ khóa cốt truyện để định vị nhanh',
+      sug_notify: 'Trung tâm Thông báo',
+      sug_notify_desc: 'Cập nhật NPC, cảnh báo hệ thống, đẩy thông báo ước nguyện',
+      sug_quick: 'Tạo Nhanh',
+      sug_quick_desc: 'Nhập một câu, AI tạo nhân vật và bắt đầu trò chơi',
+      sug_achievement: 'Tường Thành tựu',
+      sug_achievement_desc: 'Hiển thị huy hiệu đã mở khóa, thúc đẩy khám phá các lộ trình khác',
+      sug_market: 'Chợ Cốt truyện',
+      sug_market_desc: 'Người chơi chia sẻ đoạn cốt truyện hay, thích và thu thập lẫn nhau',
+      sug_weekly: 'Chọn lọc Hàng tuần',
+      sug_weekly_desc: 'Tác phẩm và hướng dẫn chất lượng do biên tập viên chọn, giảm khó chọn',
+      footer: '© 2025 Chuyue · Mọi quyền được bảo lưu',
+      nav_home: 'Trang chủ',
+      nav_game: 'Trò chơi',
+      nav_wish: 'Ước nguyện',
+      nav_member: 'Thành viên'
+    }
+  };
+
+  let currentLang = 'zh-TW';
+  let currentMode = 'desktop';
+
+  // 語言切換
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    updateText();
+    document.documentElement.lang = lang;
+  }
+
+  // 更新所有文字
+  function updateText() {
+    const dict = i18n[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (dict[key]) {
+        // 保留現有的 HTML 結構（如進度條中的 span）
+        if (el.querySelector('span')) {
+          // 只替換文本節點，保留子元素
+          const textNodes = Array.from(el.childNodes).filter(n => n.nodeType === 3);
+          textNodes.forEach(node => {
+            if (node.textContent.trim()) {
+              node.textContent = dict[key];
+            }
+          });
+        } else {
+          el.textContent = dict[key];
+        }
+      }
+    });
+  }
+
+  // 螢幕模式切換
+  function setMode(mode) {
+    currentMode = mode;
+    document.body.className = 'mode-' + mode;
+    updateButtons();
+  }
+
+  // 主題切換
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    updateButtons();
+  }
+
+  function updateButtons() {
+    const groups = document.querySelectorAll('.controls .btn-group');
+    // 螢幕模式按鈕
+    groups[0].querySelectorAll('.btn').forEach((b, i) => {
+      b.classList.toggle('active', ['desktop','tablet','mobile'][i] === currentMode);
+    });
+    // 主題按鈕
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'xiuri';
+    groups[1]?.querySelectorAll('.btn').forEach(b => {
+      const t = b.getAttribute('onclick')?.match(/setTheme\('(.+?)'\)/)?.[1];
+      if (t) b.classList.toggle('active', t === currentTheme);
+    });
+  }
+
+  // 公告關閉
+  document.querySelector('.announcement-close')?.addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.closest('.announcement').style.display = 'none';
+  });
+
+  // 分類標籤切換
+  document.querySelectorAll('.category-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // 初始化
+  setMode('desktop');
+  updateText();
+</script>
+
+</body>
+</html>

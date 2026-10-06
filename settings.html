@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="ins-default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chuyue · 系統設定</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+/* ===== 全局重置 ===== */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  background:#F5EDEF;
+  color:#2D2D2D;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+.brand-script{font-family:"Great Vibes",cursive;font-weight:400;letter-spacing:2px}
+
+/* ===== 整体布局 ===== */
+.layout{display:flex;min-height:100vh;max-width:1200px;margin:0 auto;background:#F5EDEF}
+.sidebar{
+  width:232px;min-height:100vh;background:#FFF;border-right:1px solid #EDE5E8;
+  padding:24px 16px;display:flex;flex-direction:column;flex-shrink:0;
+  position:sticky;top:0;
+}
+.sidebar-brand{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.sidebar-logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,#D4A5B5,#C9B8D4);flex-shrink:0;
+}
+.sidebar-logo-text{font-size:20px;color:#2D2D2D}
+.sidebar-subtitle{font-size:11px;color:#9B8E93;margin-bottom:24px;padding-left:46px}
+.sidebar-section{margin-bottom:4px}
+.sidebar-section-title{
+  font-size:10px;font-weight:700;color:#9B8E93;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;padding-left:8px;
+}
+.sidebar-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  font-size:14px;color:#6B5F65;cursor:pointer;transition:all 0.2s;margin-bottom:2px;
+}
+.sidebar-item:hover{background:rgba(212,165,181,0.1);color:#2D2D2D}
+.sidebar-item.active{background:rgba(212,165,181,0.15);color:#2D2D2D;font-weight:600}
+.sidebar-icon{
+  width:20px;height:20px;border-radius:6px;background:rgba(212,165,181,0.3);flex-shrink:0;opacity:0.5;
+}
+.sidebar-item.active .sidebar-icon{opacity:1;background:#D4A5B5}
+.sidebar-divider{height:1px;background:#EDE5E8;margin:16px 8px}
+.sidebar-footer{margin-top:auto;padding-top:20px;text-align:center;font-size:11px;color:#C4B8BE}
+
+/* ===== 主内容区 ===== */
+.main{flex:1;min-width:0;background:#F5EDEF}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;background:rgba(245,237,239,0.92);
+  backdrop-filter:blur(16px);border-bottom:1px solid #EDE5E8;
+  position:sticky;top:0;z-index:10;
+}
+.topbar-title{font-size:17px;font-weight:700;color:#2D2D2D}
+.topbar-actions{display:flex;gap:8px}
+.topbar-btn{
+  width:36px;height:36px;border-radius:10px;border:1.5px solid #EDE5E8;
+  background:#FFF;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;font-size:14px;
+}
+.topbar-btn:hover{background:rgba(212,165,181,0.1)}
+.content{padding:24px 28px;max-width:900px;margin:0 auto}
+
+/* ===== 设置卡片 ===== */
+.settings-card{
+  background:#FFF;border-radius:20px;
+  box-shadow:0 2px 12px rgba(45,45,45,0.04),0 0 1px rgba(45,45,45,0.04);
+  margin-bottom:20px;padding:24px 28px 28px;
+  animation:slideUp 0.5s ease-out both;
+}
+.settings-card:nth-child(1){animation-delay:0.05s}
+.settings-card:nth-child(2){animation-delay:0.1s}
+.settings-card:nth-child(3){animation-delay:0.15s}
+.settings-card:nth-child(4){animation-delay:0.2s}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.card-title{font-size:17px;font-weight:700;color:#2D2D2D;margin-bottom:4px}
+.card-desc{font-size:13px;color:#9B8E93;margin-bottom:20px}
+
+/* ===== 语言模块：Pill 按钮 ===== */
+.lang-pills{display:flex;gap:10px;flex-wrap:wrap}
+.lang-pill{
+  padding:8px 20px;border-radius:20px;border:1.5px solid #E0D8DC;
+  background:#FFF;font-size:14px;color:#6B5F65;cursor:pointer;
+  transition:all 0.25s;font-family:inherit;
+}
+.lang-pill:hover{border-color:#D4A5B5;color:#2D2D2D}
+.lang-pill.active{border-color:#2D2D2D;background:#2D2D2D;color:#FFF;font-weight:500}
+
+/* ===== 字体模块 ===== */
+.font-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.font-card{
+  flex:1;min-width:100px;padding:20px 12px;border-radius:14px;
+  border:1.5px solid #E8E0E4;background:#FAFAFA;cursor:pointer;
+  transition:all 0.25s;text-align:center;
+}
+.font-card:hover{border-color:#D4A5B5;transform:translateY(-2px);box-shadow:0 4px 12px rgba(45,45,45,0.06)}
+.font-card.active{border-color:#2D2D2D;background:#FFF;box-shadow:0 2px 8px rgba(45,45,45,0.08)}
+.font-preview-big{font-size:32px;margin-bottom:8px;color:#2D2D2D;line-height:1.2}
+.font-name-sm{font-size:13px;color:#6B5F65;font-weight:500}
+.font-preview-area{
+  background:#FAF5F7;border-radius:14px;padding:20px 24px;
+  font-size:18px;color:#2D2D2D;line-height:1.8;letter-spacing:1px;
+  border:1px solid #F0E8EC;
+}
+
+/* ===== 屏幕模式 ===== */
+.mode-row{display:flex;gap:12px;flex-wrap:wrap}
+.mode-card{
+  flex:1;min-width:120px;padding:18px 14px;border-radius:14px;
+  border:1.5px solid #E8E0E4;background:#FAFAFA;cursor:pointer;
+  transition:all 0.25s;text-align:center;
+}
+.mode-card:hover{border-color:#D4A5B5}
+.mode-card.active{border-color:#2D2D2D;background:#FFF}
+.mode-icon-lg{font-size:28px;margin-bottom:6px}
+.mode-name-sm{font-size:14px;font-weight:600;color:#2D2D2D}
+.mode-desc-sm{font-size:11px;color:#9B8E93;margin-top:2px}
+
+/* ===== 主题色彩模块 ===== */
+.theme-row{display:flex;gap:14px;flex-wrap:wrap}
+.theme-card{
+  flex:1;min-width:240px;padding:0;border-radius:16px;
+  border:1.5px solid #E8E0E4;background:#FFF;cursor:pointer;
+  transition:all 0.25s;overflow:hidden;position:relative;
+}
+.theme-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(45,45,45,0.08)}
+.theme-card.active{border-color:#2D2D2D;box-shadow:0 4px 16px rgba(45,45,45,0.1)}
+.theme-color-bar{
+  height:48px;display:flex;width:100%;
+}
+.theme-color-bar span{flex:1;height:100%}
+.theme-card-body{padding:16px 18px 18px}
+.theme-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.theme-title{font-size:15px;font-weight:700;color:#2D2D2D}
+.theme-tag{
+  padding:2px 8px;border-radius:6px;background:#F0E8EC;
+  font-size:11px;color:#8B7D84;font-weight:500;
+}
+.theme-desc{font-size:12px;color:#9B8E93;line-height:1.5;margin-bottom:10px}
+.theme-hexes{display:flex;gap:4px;flex-wrap:wrap}
+.theme-hex{
+  font-size:10px;padding:2px 6px;border-radius:4px;
+  background:#F5F0F2;color:#8B7D84;font-family:ui-monospace,SFMono,monospace;
+}
+.theme-check{
+  position:absolute;top:10px;right:10px;width:22px;height:22px;
+  border-radius:50%;background:#2D2D2D;color:#FFF;font-size:12px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+  opacity:0;transition:opacity 0.2s;
+}
+.theme-card.active .theme-check{opacity:1}
+
+/* ===== 底部保存 ===== */
+.settings-footer{
+  display:flex;align-items:center;justify-content:center;
+  gap:16px;padding-top:8px;
+}
+.save-btn{
+  padding:12px 36px;background:#2D2D2D;color:#FFF;font-size:14px;
+  font-weight:600;border:none;border-radius:999px;cursor:pointer;
+  transition:all 0.3s;font-family:inherit;letter-spacing:0.5px;
+}
+.save-btn:hover{background:#4A4A4A;transform:translateY(-1px)}
+.reset-btn{
+  padding:12px 24px;background:transparent;border:1.5px solid #E0D8DC;
+  border-radius:999px;font-size:14px;color:#9B8E93;cursor:pointer;
+  transition:all 0.2s;font-family:inherit;
+}
+.reset-btn:hover{color:#6B5F65;border-color:#C4B8BE}
+
+/* ===== 语言切换器 ===== */
+.lang-switcher{
+  position:fixed;top:12px;right:12px;z-index:1000;background:#FFF;
+  border-radius:12px;padding:8px 10px;display:flex;gap:4px;
+  border:1.5px solid #EDE5E8;box-shadow:0 2px 12px rgba(45,45,45,0.06);
+}
+.lang-btn{
+  padding:4px 10px;border-radius:8px;border:1.5px solid transparent;
+  background:transparent;cursor:pointer;font-size:11px;color:#9B8E93;
+  transition:all 0.2s;font-family:inherit;
+}
+.lang-btn.active{background:#2D2D2D;color:#FFF;border-color:#2D2D2D}
+
+/* ===== 平板 & 手机 ===== */
+.mode-tablet .sidebar{width:72px;padding:24px 8px}
+.mode-tablet .sidebar-logo-text,.mode-tablet .sidebar-subtitle,
+.mode-tablet .sidebar-section-title,.mode-tablet .sidebar-item span{display:none}
+.mode-tablet .sidebar-brand{justify-content:center}
+.mode-tablet .sidebar-item{justify-content:center;padding:12px}
+.mode-tablet .sidebar-footer{display:none}
+.mode-mobile .sidebar{display:none}
+.mode-mobile .main{width:100%}
+.mode-mobile .content{padding:16px}
+.mode-mobile .theme-card{min-width:100%}
+.mobile-nav{
+  display:none;position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 32px);max-width:400px;background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);border-radius:24px;padding:8px;
+  justify-content:space-around;box-shadow:0 4px 24px rgba(45,45,45,0.1);
+  border:1px solid #EDE5E8;z-index:100;
+}
+.mode-mobile .mobile-nav{display:flex}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 14px;border-radius:16px;cursor:pointer;
+  border:2px solid transparent;transition:all 0.2s;
+}
+.nav-item.active{background:rgba(212,165,181,0.15);border-color:#D4A5B5}
+.nav-icon{font-size:20px}
+.nav-label{font-size:10px;color:#9B8E93;font-weight:500}
+.nav-item.active .nav-label{color:#8B6B7A;font-weight:700}
+
+@media(max-width:768px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .mobile-nav{display:flex!important}
+  .font-row{gap:8px}
+  .font-card{min-width:80px;padding:16px 8px}
+  .font-preview-big{font-size:24px}
+  .mode-row{gap:8px}
+  .mode-card{min-width:90px}
+  .theme-row{gap:10px}
+  .theme-card{min-width:100%}
+}
+</style>
+</head>
+<body class="mode-desktop">
+
+<div class="lang-switcher">
+  <button class="lang-btn" onclick="setLang('zh-TW')">繁中</button>
+  <button class="lang-btn active" onclick="setLang('zh-CN')">简中</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('vi')">VN</button>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="sidebar-logo-icon"></div><span class="sidebar-logo-text brand-script">Chuyue</span></div>
+    <div class="sidebar-subtitle" data-i18n="tagline">文字模拟器</div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title" data-i18n="game_section">游戏</div>
+      <div class="sidebar-item"><div class="sidebar-icon"></div><span data-i18n="game_center">游戏中心</span></div>
+      <div class="sidebar-item"><div class="sidebar-icon"></div><span data-i18n="wish_board">许愿看板</span></div>
+      <div class="sidebar-item active"><div class="sidebar-icon"></div><span data-i18n="settings">系统设定</span></div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title" data-i18n="personal_section">个人</div>
+      <div class="sidebar-item"><div class="sidebar-icon"></div><span data-i18n="member">会员中心</span></div>
+      <div class="sidebar-item"><div class="sidebar-icon"></div><span data-i18n="changelog">更新日志</span></div>
+      <div class="sidebar-item"><div class="sidebar-icon"></div><span data-i18n="contact">联系开发者</span></div>
+    </div>
+    <div class="sidebar-footer">(c) 2025 Chuyue</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-title" data-i18n="settings_title">系统设定</div>
+      <div class="topbar-actions">
+        <button class="topbar-btn">&#128276;</button>
+        <button class="topbar-btn">&#128270;</button>
+      </div>
+    </header>
+    <div class="content">
+
+      <!-- 界面语言 -->
+      <div class="settings-card">
+        <div class="card-title" data-i18n="lang_settings">界面语言</div>
+        <div class="card-desc" data-i18n="lang_desc">选择你习惯阅读的语言</div>
+        <div class="lang-pills">
+          <button class="lang-pill active" onclick="setLanguage('zh-CN',this)">简体中文</button>
+          <button class="lang-pill" onclick="setLanguage('zh-TW',this)">繁體中文</button>
+          <button class="lang-pill" onclick="setLanguage('en',this)">English</button>
+          <button class="lang-pill" onclick="setLanguage('vi',this)">Tieng Viet</button>
+        </div>
+      </div>
+
+      <!-- 字体风格 -->
+      <div class="settings-card">
+        <div class="card-title" data-i18n="font_settings">字体风格</div>
+        <div class="card-desc" data-i18n="font_desc">选择最舒服的阅读字体</div>
+        <div class="font-row">
+          <div class="font-card font-gentle" onclick="setFont('gentle',this)">
+            <div class="font-preview-big" style="font-family:"Noto Serif SC",serif">柔</div>
+            <div class="font-name-sm">温柔体</div>
+          </div>
+          <div class="font-card font-jade active" onclick="setFont('jade',this)">
+            <div class="font-preview-big" style="font-family:"ZCOOL XiaoWei","KaiTi",serif">玉</div>
+            <div class="font-name-sm">玉立体</div>
+          </div>
+          <div class="font-card font-round" onclick="setFont('round',this)">
+            <div class="font-preview-big" style="font-family:"Yuanti SC","YouYuan",sans-serif">圆</div>
+            <div class="font-name-sm">圆体</div>
+          </div>
+          <div class="font-card font-bubble" onclick="setFont('bubble',this)">
+            <div class="font-preview-big" style="font-family:"ZCOOL KuaiLe",sans-serif">泡</div>
+            <div class="font-name-sm">元气泡泡</div>
+          </div>
+          <div class="font-card font-mono" onclick="setFont('mono',this)">
+            <div class="font-preview-big" style="font-family:ui-monospace,Consolas,monospace">Aa</div>
+            <div class="font-name-sm">等宽体</div>
+          </div>
+        </div>
+        <div class="font-preview-area" id="fontPreview" style="font-family:"Noto Serif SC",serif">
+          春水初生，春林初盛，春风十里，不如你。
+        </div>
+      </div>
+
+      <!-- 屏幕模式 -->
+      <div class="settings-card">
+        <div class="card-title" data-i18n="screen_settings">屏幕模式</div>
+        <div class="card-desc" data-i18n="screen_desc">调整预览装置尺寸</div>
+        <div class="mode-row">
+          <div class="mode-card active" onclick="setScreenMode('desktop',this)">
+            <div class="mode-icon-lg">&#128421;&#65039;</div>
+            <div class="mode-name-sm" data-i18n="desktop">电脑</div>
+            <div class="mode-desc-sm">Desktop</div>
+          </div>
+          <div class="mode-card" onclick="setScreenMode('tablet',this)">
+            <div class="mode-icon-lg">&#128203;</div>
+            <div class="mode-name-sm" data-i18n="tablet">平板</div>
+            <div class="mode-desc-sm">Tablet</div>
+          </div>
+          <div class="mode-card" onclick="setScreenMode('mobile',this)">
+            <div class="mode-icon-lg">&#128241;</div>
+            <div class="mode-name-sm" data-i18n="mobile">手机</div>
+            <div class="mode-desc-sm">Mobile</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 主题色彩 -->
+      <div class="settings-card">
+        <div class="card-title" data-i18n="theme_settings">主题色彩</div>
+        <div class="card-desc" data-i18n="theme_desc">挑一套喜欢的配色，整站即时切换</div>
+        <div class="theme-row">
+          <div class="theme-card" onclick="setTheme('xiuri',this)">
+            <div class="theme-color-bar">
+              <span style="background:#EABFC3"></span>
+              <span style="background:#F2CB8E"></span>
+              <span style="background:#EAC077"></span>
+              <span style="background:#F5D5D9"></span>
+              <span style="background:#D4A8AC"></span>
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-header">
+                <span class="theme-title">绣日摇风</span>
+                <span class="theme-tag">浅色</span>
+              </div>
+              <div class="theme-desc">初始默认。柔和的玫瑰粉搭配迎曦黄，明亮清透。</div>
+              <div class="theme-hexes">
+                <span class="theme-hex">#EABFC3</span>
+                <span class="theme-hex">#F2CB8E</span>
+                <span class="theme-hex">#EAC077</span>
+                <span class="theme-hex">#F5D5D9</span>
+              </div>
+            </div>
+            <div class="theme-check">&#10003;</div>
+          </div>
+          <div class="theme-card" onclick="setTheme('chuangsha',this)">
+            <div class="theme-color-bar">
+              <span style="background:#B6A9C8"></span>
+              <span style="background:#A09BC3"></span>
+              <span style="background:#D8E6EA"></span>
+              <span style="background:#9DBFC3"></span>
+              <span style="background:#D4CCDF"></span>
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-header">
+                <span class="theme-title">窗纱香灰</span>
+                <span class="theme-tag">浅色</span>
+              </div>
+              <div class="theme-desc">藕紫与烟水蓝交织，低饱和的高级灰粉调。</div>
+              <div class="theme-hexes">
+                <span class="theme-hex">#B6A9C8</span>
+                <span class="theme-hex">#A09BC3</span>
+                <span class="theme-hex">#D8E6EA</span>
+                <span class="theme-hex">#9DBFC3</span>
+              </div>
+            </div>
+            <div class="theme-check">&#10003;</div>
+          </div>
+          <div class="theme-card active" onclick="setTheme('yuanshan',this)">
+            <div class="theme-color-bar">
+              <span style="background:#A8BEDF"></span>
+              <span style="background:#C7D5E8"></span>
+              <span style="background:#D8C9BA"></span>
+              <span style="background:#EFE4D4"></span>
+              <span style="background:#8BA4CF"></span>
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-header">
+                <span class="theme-title">远山素影</span>
+                <span class="theme-tag">浅色</span>
+              </div>
+              <div class="theme-desc">晴空蓝与远山青，雾沙灰的素雅冷调。</div>
+              <div class="theme-hexes">
+                <span class="theme-hex">#A8BEDF</span>
+                <span class="theme-hex">#C7D5E8</span>
+                <span class="theme-hex">#D8C9BA</span>
+                <span class="theme-hex">#EFE4D4</span>
+              </div>
+            </div>
+            <div class="theme-check">&#10003;</div>
+          </div>
+          <div class="theme-card" onclick="setTheme('taozhi',this)">
+            <div class="theme-color-bar">
+              <span style="background:#E6A6AC"></span>
+              <span style="background:#D48D95"></span>
+              <span style="background:#A1C2B1"></span>
+              <span style="background:#B7D5C6"></span>
+              <span style="background:#F0C4C8"></span>
+            </div>
+            <div class="theme-card-body">
+              <div class="theme-header">
+                <span class="theme-title">桃枝照水</span>
+                <span class="theme-tag">浅色</span>
+              </div>
+              <div class="theme-desc">桃枝粉与浮翠绿，落花红的温柔碰撞。</div>
+              <div class="theme-hexes">
+                <span class="theme-hex">#E6A6AC</span>
+                <span class="theme-hex">#D48D95</span>
+                <span class="theme-hex">#A1C2B1</span>
+                <span class="theme-hex">#B7D5C6</span>
+              </div>
+            </div>
+            <div class="theme-check">&#10003;</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部按钮 -->
+      <div class="settings-footer">
+        <button class="save-btn" data-i18n="save_settings">储存设定</button>
+        <button class="reset-btn" onclick="resetSettings()" data-i18n="reset_default">恢复预设</button>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<nav class="mobile-nav">
+  <div class="nav-item" onclick="alert('go home')"><span class="nav-icon">&#127968;</span><span class="nav-label">首页</span></div>
+  <div class="nav-item" onclick="alert('go games')"><span class="nav-icon">&#127918;</span><span class="nav-label">游戏</span></div>
+  <div class="nav-item active"><span class="nav-icon">&#9881;&#65039;</span><span class="nav-label">设定</span></div>
+  <div class="nav-item" onclick="alert('go member')"><span class="nav-icon">&#128100;</span><span class="nav-label">会员</span></div>
+</nav>
+
+<script>
+var i18n={
+  "zh-CN":{
+    tagline:"文字模拟器",game_section:"游戏",personal_section:"个人",
+    game_center:"游戏中心",wish_board:"许愿看板",settings:"系统设定",
+    member:"会员中心",changelog:"更新日志",contact:"联系开发者",
+    settings_title:"系统设定",
+    lang_settings:"界面语言",lang_desc:"选择你习惯阅读的语言",
+    font_settings:"字体风格",font_desc:"选择最舒服的阅读字体",
+    screen_settings:"屏幕模式",screen_desc:"调整预览装置尺寸",
+    theme_settings:"主题色彩",theme_desc:"挑一套喜欢的配色，整站即时切换",
+    desktop:"电脑",tablet:"平板",mobile:"手机",
+    save_settings:"储存设定",reset_default:"恢复预设"
+  },
+  "zh-TW":{
+    tagline:"文字模擬器",game_section:"遊戲",personal_section:"個人",
+    game_center:"遊戲中心",wish_board:"許願看板",settings:"系統設定",
+    member:"會員中心",changelog:"更新日誌",contact:"聯繫開發者",
+    settings_title:"系統設定",
+    lang_settings:"界面語言",lang_desc:"選擇你習慣閱讀的語言",
+    font_settings:"字體風格",font_desc:"選擇最舒服的閱讀字體",
+    screen_settings:"螢幕模式",screen_desc:"調整預覽裝置尺寸",
+    theme_settings:"主題色彩",theme_desc:"挑一套喜歡的配色，整站即時切換",
+    desktop:"電腦",tablet:"平板",mobile:"手機",
+    save_settings:"儲存設定",reset_default:"恢復預設"
+  },
+  "en":{
+    tagline:"Text Simulator",game_section:"Game",personal_section:"Personal",
+    game_center:"Games",wish_board:"Wish Board",settings:"Settings",
+    member:"Member",changelog:"Changelog",contact:"Contact",
+    settings_title:"Settings",
+    lang_settings:"Language",lang_desc:"Choose your preferred language",
+    font_settings:"Font Style",font_desc:"Select the most comfortable reading font",
+    screen_settings:"Screen Mode",screen_desc:"Adjust preview device size",
+    theme_settings:"Color Theme",theme_desc:"Pick a palette you love",
+    desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
+    save_settings:"Save",reset_default:"Reset"
+  },
+  "vi":{
+    tagline:"Mo phong van ban",game_section:"Tro choi",personal_section:"Ca nhan",
+    game_center:"Trung tam tro choi",wish_board:"Bang uoc",settings:"Cai dat",
+    member:"Thanh vien",changelog:"Nhat ky",contact:"Lien he",
+    settings_title:"Cai dat",
+    lang_settings:"Ngon ngu",lang_desc:"Chon ngon ngu ban thich",
+    font_settings:"Phong chu",font_desc:"Chon phong chu doc thoai mai nhat",
+    screen_settings:"Che do man hinh",screen_desc:"Dieu chinh kich thuoc",
+    theme_settings:"Chu de mau",theme_desc:"Chon mot bo mau ban yeu thich",
+    desktop:"May tinh",tablet:"May tinh bang",mobile:"Di dong",
+    save_settings:"Luu",reset_default:"Khoi phuc"
+  }
+};
+
+var currentLang="zh-CN";
+
+function setFont(font,el){
+  var fonts={
+    jade:'"ZCOOL XiaoWei","KaiTi",serif',
+    mono:'ui-monospace,Consolas,monospace',
+    round:'"Yuanti SC","YouYuan",sans-serif',
+    bubble:'"ZCOOL KuaiLe",sans-serif',
+    gentle:'"Noto Serif SC","Songti SC","SimSun",serif'
+  };
+  document.body.style.fontFamily=fonts[font];
+  document.getElementById('fontPreview').style.fontFamily=fonts[font];
+  document.querySelectorAll('.font-card').forEach(function(e){e.classList.remove('active')});
+  if(el)el.classList.add('active');
+}
+
+function setScreenMode(mode,el){
+  document.body.className='mode-'+mode;
+  document.querySelectorAll('.mode-card').forEach(function(e){e.classList.remove('active')});
+  if(el)el.classList.add('active');
+}
+
+function setLanguage(lang,el){
+  currentLang=lang;
+  document.querySelectorAll('.lang-pill').forEach(function(e){e.classList.remove('active')});
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.lang-btn').forEach(function(btn){
+    btn.classList.toggle('active',btn.getAttribute('onclick').includes("'"+lang+"'"));
+  });
+  updateText();
+}
+function setLang(lang){setLanguage(lang,null);}
+
+function updateText(){
+  var dict=i18n[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.dataset.i18n;
+    if(dict[key])el.textContent=dict[key];
+  });
+}
+
+function setTheme(theme,el){
+  document.querySelectorAll('.theme-card').forEach(function(e){e.classList.remove('active')});
+  if(el)el.classList.add('active');
+}
+
+function resetSettings(){
+  setFont('jade',document.querySelector('.font-jade'));
+  document.querySelectorAll('.mode-card').forEach(function(e,i){e.classList.toggle('active',i===0)});
+  document.body.className='mode-desktop';
+  document.querySelectorAll('.lang-pill').forEach(function(e,i){e.classList.toggle('active',i===0)});
+  currentLang='zh-CN';
+  updateText();
+  document.querySelectorAll('.theme-card').forEach(function(e,i){e.classList.toggle('active',i===2)});
+}
+
+updateText();
+</script>
+</body>
+</html>
