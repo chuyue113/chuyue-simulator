@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="yuanshan">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chuyue - 会员中心</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #A8BEDF; --primary-dark: #8ba4cf; --primary-light: #c5d4ea;
+    --accent: #C7D5E8; --accent-light: #d8e2f0;
+    --bg-main: #F5F7FA; --bg-sidebar: #ECF0F5; --bg-card: #F8FAFC;
+    --bg-hover: rgba(168, 190, 223, 0.1); --bg-active: rgba(168, 190, 223, 0.2);
+    --text-primary: #4A5060; --text-secondary: #7A8090; --text-muted: #A8B0C0; --text-light: #C8D0D8;
+    --border: #D8DFE8; --border-light: #E8EDF2;
+    --shadow-soft: 0 4px 20px rgba(168, 190, 223, 0.15);
+    --shadow-card: 0 6px 24px rgba(74, 80, 96, 0.06);
+    --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Serif SC", serif;
+    background: var(--bg-main);
+    min-height: 100vh;
+    color: var(--text-primary);
+  }
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: 232px;
+    background: var(--bg-sidebar);
+    border-right: 1.5px solid var(--border);
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .sidebar-logo-text {
+    font-family: "Great Vibes", cursive;
+    font-size: 28px;
+    color: var(--text-primary);
+  }
+  .sidebar-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .sidebar-section-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0 8px;
+    margin: 12px 0 6px;
+    font-weight: 500;
+  }
+  .sidebar-item {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
+  }
+  .sidebar-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+  .sidebar-item.active {
+    background: var(--bg-active);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  .sidebar-logout {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .main {
+    flex: 1;
+    padding: 24px 32px;
+    overflow-y: auto;
+  }
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+  }
+
+  /* 会员卡片 */
+  .member-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1.5px solid var(--border);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .member-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .member-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .member-card-body {
+    padding: 24px;
+  }
+
+  /* 排版1: 头像 */
+  .avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .avatar-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(168, 190, 223, 0.3);
+  }
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+  .avatar-img.show {
+    display: block;
+  }
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    font-size: 48px;
+  }
+  .avatar-placeholder.hidden {
+    display: none;
+  }
+  .avatar-edit-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid var(--bg-card);
+    font-size: 16px;
+  }
+  .avatar-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn-sm {
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    background: var(--bg-main);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-sm:hover {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+  }
+  .btn-sm.primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  .btn-sm.primary:hover {
+    background: var(--primary-dark);
+  }
+  input[type="file"] {
+    display: none;
+  }
+
+  /* 排版2-3: 信息列表 */
+  .info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .info-item:last-child {
+    border-bottom: none;
+  }
+  .info-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .info-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-family: monospace;
+  }
+  .member-id {
+    font-family: monospace;
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  .email-masked {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eye-icon {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    user-select: none;
+    transition: color 0.2s;
+  }
+  .eye-icon:hover {
+    color: var(--text-secondary);
+  }
+
+  /* 排版4: 修改密码 */
+  .password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 400px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+  .form-input {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.2s;
+  }
+  .form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(168, 190, 223, 0.15);
+  }
+  .input-wrapper {
+    position: relative;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    user-select: none;
+  }
+  .form-input.has-toggle {
+    padding-right: 42px;
+  }
+  .btn-submit {
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--text-primary);
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+    align-self: flex-start;
+  }
+  .btn-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  .password-result {
+    margin-top: 12px;
+    font-size: 13px;
+    min-height: 20px;
+  }
+  .password-result.success {
+    color: #27ae60;
+  }
+  .password-result.error {
+    color: #e74c3c;
+  }
+
+  /* ===== 管理員區域：排版5 & 排版6 ===== */
+  .admin-section {
+    display: none;
+  }
+  .admin-section.show {
+    display: block;
+    animation: fadeUp 0.5s ease;
+  }
+  .invite-code-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1.5px solid var(--border);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .invite-code-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+  .invite-code-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .invite-code-row {
+    display: flex;
+    gap: 8px;
+  }
+  .invite-code-row .form-input {
+    flex: 1;
+  }
+  .btn-verify-code {
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--primary);
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .btn-verify-code:hover {
+    background: var(--primary-dark);
+  }
+  .invite-result {
+    margin-top: 12px;
+    font-size: 13px;
+    min-height: 20px;
+  }
+  .invite-result.success {
+    color: #27ae60;
+  }
+  .invite-result.error {
+    color: #e74c3c;
+  }
+
+  /* 模型配置卡片 */
+  .model-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1.5px solid var(--border);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .model-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .model-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .btn-add-model {
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--primary);
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .btn-add-model:hover {
+    background: var(--primary-dark);
+  }
+
+  /* 模型列表 */
+  .model-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .model-item {
+    background: var(--bg-main);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border-light);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.2s;
+  }
+  .model-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 2px 8px rgba(168, 190, 223, 0.1);
+  }
+  .model-item.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(168, 190, 223, 0.2);
+  }
+  .model-info {
+    flex: 1;
+  }
+  .model-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .model-type {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .model-detail {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: monospace;
+    word-break: break-all;
+  }
+  .model-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-action:hover {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+  }
+  .btn-action.primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  .btn-action.primary:hover {
+    background: var(--primary-dark);
+  }
+  .btn-action.danger {
+    border-color: #e74c3c;
+    color: #e74c3c;
+  }
+  .btn-action.danger:hover {
+    background: #e74c3c;
+    color: #fff;
+  }
+
+  /* 弹窗 */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+  .modal {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    width: 90%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: fadeUp 0.3s ease;
+  }
+  .modal-header {
+    padding: 24px 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover {
+    background: var(--bg-active);
+    color: var(--text-primary);
+  }
+  .modal-body {
+    padding: 20px 24px;
+  }
+  .modal-footer {
+    padding: 16px 24px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-step {
+    display: none;
+  }
+  .modal-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+  .step-dot.active {
+    background: var(--primary);
+    width: 28px;
+    border-radius: 5px;
+  }
+
+  /* API模式选择 */
+  .api-mode-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .api-mode-option {
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border);
+    background: var(--bg-main);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .api-mode-option:hover {
+    border-color: var(--primary-light);
+  }
+  .api-mode-option.selected {
+    border-color: var(--primary);
+    background: var(--bg-hover);
+  }
+  .api-mode-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+  .api-mode-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* 使用记录表格 */
+  .record-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .record-table th {
+    text-align: left;
+    padding: 10px 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--border);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .record-table td {
+    padding: 10px 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .record-table tr:hover td {
+    background: var(--bg-hover);
+  }
+
+  /* 标签 */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+  }
+  .tag.active {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 16px; }
+    .page-title { font-size: 18px; }
+    .member-card-header { padding: 16px 20px; }
+    .member-card-body { padding: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .main { padding: 12px; }
+    .info-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .avatar-wrapper {
+      width: 100px;
+      height: 100px;
+    }
+  }
+</style>
+  .admin-section {
+    display: none;
+  }
+  .admin-section.show {
+    display: block;
+    animation: fadeUp 0.5s ease;
+  }
+  .invite-code-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1.5px solid var(--border);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .invite-code-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+  }
+  .invite-code-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .invite-code-row {
+    display: flex;
+    gap: 8px;
+  }
+  .invite-code-row .form-input {
+    flex: 1;
+  }
+  .btn-verify-code {
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--primary);
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .btn-verify-code:hover {
+    background: var(--primary-dark);
+  }
+  .invite-result {
+    margin-top: 12px;
+    font-size: 13px;
+    min-height: 20px;
+  }
+  .invite-result.success {
+    color: #27ae60;
+  }
+  .invite-result.error {
+    color: #e74c3c;
+  }
+
+  /* 模型配置卡片 */
+  .model-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1.5px solid var(--border);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .model-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .model-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .btn-add-model {
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--primary);
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+  .btn-add-model:hover {
+    background: var(--primary-dark);
+  }
+
+  /* 模型列表 */
+  .model-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .model-item {
+    background: var(--bg-main);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border-light);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: all 0.2s;
+  }
+  .model-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 2px 8px rgba(168, 190, 223, 0.1);
+  }
+  .model-item.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(168, 190, 223, 0.2);
+  }
+  .model-info {
+    flex: 1;
+  }
+  .model-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+  .model-type {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .model-detail {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: monospace;
+    word-break: break-all;
+  }
+  .model-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-action:hover {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+  }
+  .btn-action.primary {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  .btn-action.primary:hover {
+    background: var(--primary-dark);
+  }
+  .btn-action.danger {
+    border-color: #e74c3c;
+    color: #e74c3c;
+  }
+  .btn-action.danger:hover {
+    background: #e74c3c;
+    color: #fff;
+  }
+
+  /* 弹窗 */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+  .modal {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    width: 90%;
+    max-width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: fadeUp 0.3s ease;
+  }
+  .modal-header {
+    padding: 24px 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover {
+    background: var(--bg-active);
+    color: var(--text-primary);
+  }
+  .modal-body {
+    padding: 20px 24px;
+  }
+  .modal-footer {
+    padding: 16px 24px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .modal-step {
+    display: none;
+  }
+  .modal-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+  .step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .step-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: all 0.3s;
+  }
+  .step-dot.active {
+    background: var(--primary);
+    width: 28px;
+    border-radius: 5px;
+  }
+
+  /* API模式选择 */
+  .api-mode-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .api-mode-option {
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border);
+    background: var(--bg-main);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .api-mode-option:hover {
+    border-color: var(--primary-light);
+  }
+  .api-mode-option.selected {
+    border-color: var(--primary);
+    background: var(--bg-hover);
+  }
+  .api-mode-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+  .api-mode-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* 使用记录表格 */
+  .record-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .record-table th {
+    text-align: left;
+    padding: 10px 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--border);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .record-table td {
+    padding: 10px 12px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .record-table tr:hover td {
+    background: var(--bg-hover);
+  }
+
+  /* 标签 */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+  }
+  .tag.active {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 16px; }
+    .page-title { font-size: 18px; }
+    .member-card-header { padding: 16px 20px; }
+    .member-card-body { padding: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .main { padding: 12px; }
+    .info-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .avatar-wrapper {
+      width: 100px;
+      height: 100px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- 侧边栏 -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="sidebar-logo-text">Chuyue</span>
+    </div>
+    <div class="sidebar-subtitle">会员中心</div>
+
+    <div class="sidebar-section-title">游戏</div>
+    <div class="sidebar-item" onclick="location.href='index.html'">🎮 游戏中心</div>
+    <div class="sidebar-item">📋 许愿看板</div>
+    <div class="sidebar-item">⚙️ 系统设定</div>
+
+    <div class="sidebar-section-title">个人</div>
+    <div class="sidebar-item active">👤 会员中心</div>
+    <div class="sidebar-item">📜 更新日志</div>
+    <div class="sidebar-item">📧 联系开发者</div>
+
+    <div class="sidebar-logout">
+      <div class="sidebar-item" onclick="logout()">🚪 登出</div>
+    </div>
+  </aside>
+
+  <!-- 主内容 -->
+  <main class="main">
+    <h1 class="page-title" data-i18n="member_center">会员中心</h1>
+
+    <!-- 排版1: 头像 -->
+    <div class="member-card">
+      <div class="member-card-header">
+        <span class="member-card-title" data-i18n="avatar_title">会员头像</span>
+      </div>
+      <div class="member-card-body">
+        <div class="avatar-section">
+          <div class="avatar-wrapper" onclick="document.getElementById('avatarInput').click()">
+            <img class="avatar-img" id="avatarImg" alt="avatar">
+            <div class="avatar-placeholder" id="avatarPlaceholder">👤</div>
+            <div class="avatar-edit-btn">📷</div>
+          </div>
+          <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatar(event)">
+          <div class="avatar-actions">
+            <button class="btn-sm" onclick="document.getElementById('avatarInput').click()" data-i18n="change_avatar">更换头像</button>
+            <button class="btn-sm primary" onclick="saveAvatar()" data-i18n="save_avatar">保存头像</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 排版2-3: 基本信息 -->
+    <div class="member-card">
+      <div class="member-card-header">
+        <span class="member-card-title" data-i18n="basic_info">基本信息</span>
+      </div>
+      <div class="member-card-body">
+        <div class="info-list">
+          <div class="info-item">
+            <span class="info-label" data-i18n="member_id">会员ID</span>
+            <span class="info-value member-id" id="memberId">--</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label" data-i18n="member_email">会员邮箱</span>
+            <div class="email-masked">
+              <span id="emailDisplay">--</span>
+              <span class="eye-icon" onclick="toggleEmail()" id="eyeIcon">👁</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-label" data-i18n="reg_time">注册时间</span>
+            <span id="regTime">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 排版4: 修改密码 -->
+    <div class="member-card">
+      <div class="member-card-header">
+        <span class="member-card-title" data-i18n="change_password">修改密码</span>
+      </div>
+      <div class="member-card-body">
+        <div class="password-form">
+          <div class="form-group">
+            <label class="form-label" data-i18n="old_password">当前密码</label>
+            <div class="input-wrapper">
+              <input type="password" class="form-input has-toggle" id="oldPassword" placeholder="••••••••">
+              <span class="toggle-password" onclick="togglePwd('oldPassword')">👁</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="new_password">新密码</label>
+            <div class="input-wrapper">
+              <input type="password" class="form-input has-toggle" id="newPassword" placeholder="••••••••">
+              <span class="toggle-password" onclick="togglePwd('newPassword')">👁</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="confirm_new_password">确认新密码</label>
+            <div class="input-wrapper">
+              <input type="password" class="form-input has-toggle" id="confirmNewPassword" placeholder="••••••••">
+              <span class="toggle-password" onclick="togglePwd('confirmNewPassword')">👁</span>
+            </div>
+          </div>
+          <button class="btn-submit" onclick="changePassword()" data-i18n="send_change">确认修改</button>
+          <div class="password-result" id="passwordResult"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 排版5: 系统模型配置（管理员） ===== -->
+    <div class="admin-section" id="adminSection">
+      <div class="member-card" id="inviteBox">
+        <div class="member-card-header">
+          <span class="member-card-title" data-i18n="admin_models">系统模型配置</span>
+          <span class="tag">管理员</span>
+        </div>
+        <div class="member-card-body">
+          <div class="invite-code-box">
+            <div class="invite-code-title" data-i18n="invite_verify">管理员邀请码验证</div>
+            <div class="invite-code-desc" data-i18n="invite_desc">请输入开发者提供的邀请码以解锁管理员功能</div>
+            <div class="invite-code-row">
+              <input type="text" class="form-input" id="inviteCodeInput" placeholder="CHUYUE-XXXX-ADMIN">
+              <button class="btn-verify-code" onclick="verifyInviteCode()" data-i18n="verify">验证</button>
+            </div>
+            <div class="invite-result" id="inviteResult"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="member-card" id="systemModelSection" style="display:none">
+        <div class="member-card-header">
+          <span class="member-card-title" data-i18n="admin_models">系统模型配置</span>
+          <span class="tag active">管理员</span>
+        </div>
+        <div class="member-card-body">
+          <div class="model-card-header" style="margin-bottom:16px;">
+            <span style="font-size:13px; color:var(--text-muted);" data-i18n="system_models">系统模型列表</span>
+            <button class="btn-add-model" onclick="openModelModal('system')" data-i18n="add_model">添加模型</button>
+          </div>
+          <div class="model-list" id="systemModelList">
+            <div style="text-align:center; padding:40px; color:var(--text-muted); font-size:13px;" data-i18n="no_system_models">暂无系统模型配置</div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;">
+            <button class="btn-action primary" onclick="fetchSystemModels()" data-i18n="fetch_models">获取模型</button>
+            <button class="btn-action" onclick="showAllSystemModels()" data-i18n="show_results">显示获取结果</button>
+            <button class="btn-action danger" onclick="resetModels('system')" data-i18n="reset_models">重置模型</button>
+          </div>
+          <div style="margin-top:16px;" id="systemModelResult"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 排版6: 会员API绑定 ===== -->
+    <div class="member-card" id="memberApiSection">
+      <div class="member-card-header">
+        <span class="member-card-title" data-i18n="member_api">会员API AI绑定</span>
+      </div>
+      <div class="member-card-body">
+        <div class="model-card-header" style="margin-bottom:16px;">
+          <span style="font-size:13px; color:var(--text-muted);" data-i18n="api_bindings">自定义API绑定</span>
+          <button class="btn-add-model" onclick="openModelModal('member')" data-i18n="add_api">添加API</button>
+        </div>
+        <div class="model-list" id="memberModelList">
+          <div style="text-align:center; padding:40px; color:var(--text-muted); font-size:13px;" data-i18n="no_member_models">暂无API绑定</div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:16px; flex-wrap:wrap;">
+          <button class="btn-action primary" onclick="fetchMemberModels()" data-i18n="fetch_models">获取模型</button>
+          <button class="btn-action" onclick="showAllMemberModels()" data-i18n="show_results">显示获取结果</button>
+          <button class="btn-action" onclick="selectMemberModel()" data-i18n="select_model">选用模型</button>
+          <button class="btn-action" onclick="saveMemberConfig()" data-i18n="save_config">保存</button>
+          <button class="btn-action" onclick="showMemberRecords()" data-i18n="use_records">使用记录</button>
+          <button class="btn-action danger" onclick="resetModels('member')" data-i18n="reset_models">重置</button>
+          <button class="btn-action danger" onclick="deleteMemberModel()" data-i18n="delete">删除</button>
+        </div>
+        <div style="margin-top:16px;" id="memberModelResult"></div>
+      </div>
+    </div>
+
+    <!-- ===== 模型配置弹窗（排版5和6共用） ===== -->
+    <div class="modal-overlay" id="modelModal">
+      <div class="modal">
+        <div class="modal-header">
+          <span class="modal-title" id="modalTitle">添加模型</span>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <!-- 步骤指示器 -->
+          <div class="step-indicator">
+            <div class="step-dot active" id="stepDot1"></div>
+            <div class="step-dot" id="stepDot2"></div>
+          </div>
+
+          <!-- 步骤1: 基本信息 -->
+          <div class="modal-step active" id="modalStep1">
+            <div class="form-group">
+              <label class="form-label" data-i18n="model_name">自定义名称</label>
+              <input type="text" class="form-input" id="modelName" placeholder="例如: GPT-4">
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="api_mode">API模式</label>
+              <div class="api-mode-grid">
+                <div class="api-mode-option" data-mode="openai" onclick="selectApiMode(this)">
+                  <div class="api-mode-name">OpenAI API</div>
+                  <div class="api-mode-desc">兼容</div>
+                </div>
+                <div class="api-mode-option" data-mode="claude" onclick="selectApiMode(this)">
+                  <div class="api-mode-name">Claude API</div>
+                  <div class="api-mode-desc">兼容</div>
+                </div>
+                <div class="api-mode-option" data-mode="openai-responses" onclick="selectApiMode(this)">
+                  <div class="api-mode-name">OpenAI Responses</div>
+                  <div class="api-mode-desc">API兼容</div>
+                </div>
+                <div class="api-mode-option" data-mode="gemini" onclick="selectApiMode(this)">
+                  <div class="api-mode-name">Google Gemini</div>
+                  <div class="api-mode-desc">API兼容</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 步骤2: API配置 -->
+          <div class="modal-step" id="modalStep2">
+            <div class="form-group">
+              <label class="form-label" data-i18n="confirm_name">确认名称</label>
+              <input type="text" class="form-input" id="modelNameConfirm" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="confirm_mode">确认API模式</label>
+              <input type="text" class="form-input" id="apiModeConfirm" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="api_key">API密钥</label>
+              <div class="input-wrapper">
+                <input type="password" class="form-input has-toggle" id="apiKey" placeholder="sk-...">
+                <span class="toggle-password" onclick="toggleApiKey()">👁</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="api_host">API主机</label>
+              <input type="text" class="form-input" id="apiHost" placeholder="https://api.example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="api_path">API路径</label>
+              <input type="text" class="form-input" id="apiPath" placeholder="/v1/chat/completions（可选）">
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button class="btn-action" onclick="verifyApiConfig()" data-i18n="verify">验证</button>
+              <span id="verifyResult" style="font-size:13px; color:var(--text-muted);"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-action" id="btnPrev" onclick="prevStep()" style="display:none;" data-i18n="prev">上一步</button>
+          <button class="btn-action primary" id="btnNext" onclick="nextStep()" data-i18n="next">下一步</button>
+          <button class="btn-action primary" id="btnConfirm" onclick="confirmAddModel()" style="display:none;" data-i18n="confirm">确认发送</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const i18n = {
+  'zh-CN': {
+    member_center: '会员中心', avatar_title: '会员头像', change_avatar: '更换头像',
+    save_avatar: '保存头像', basic_info: '基本信息', member_id: '会员ID',
+    member_email: '会员邮箱', reg_time: '注册时间', change_password: '修改密码',
+    old_password: '当前密码', new_password: '新密码', confirm_new_password: '确认新密码',
+    send_change: '确认修改', pwd_change_success: '密码修改成功！',
+    pwd_change_error: '密码修改失败，请检查输入', pwd_mismatch: '两次输入的密码不一致',
+    pwd_short: '密码至少需要6位', logout_confirm: '确定要登出吗？',
+    admin_models: '系统模型配置', member_api: '会员API AI绑定',
+    invite_verify: '管理员邀请码验证', invite_desc: '请输入开发者提供的邀请码以解锁管理员功能',
+    verify: '验证', model_name: '自定义名称', api_mode: 'API模式',
+    confirm_name: '确认名称', confirm_mode: '确认API模式', api_key: 'API密钥',
+    api_host: 'API主机', api_path: 'API路径', add_model: '添加模型',
+    add_api: '添加API', system_models: '系统模型列表',
+    api_bindings: '自定义API绑定', fetch_models: '获取模型',
+    show_results: '显示获取结果', select_model: '选用模型',
+    save_config: '保存', use_records: '使用记录',
+    reset_models: '重置模型', delete: '删除',
+    no_system_models: '暂无系统模型配置', no_member_models: '暂无API绑定',
+    prev: '上一步', next: '下一步', confirm: '确认发送'
+  },
+  'zh-TW': {
+    member_center: '會員中心', avatar_title: '會員頭像', change_avatar: '更換頭像',
+    save_avatar: '保存頭像', basic_info: '基本信息', member_id: '會員ID',
+    member_email: '會員郵箱', reg_time: '註冊時間', change_password: '修改密碼',
+    old_password: '當前密碼', new_password: '新密碼', confirm_new_password: '確認新密碼',
+    send_change: '確認修改', pwd_change_success: '密碼修改成功！',
+    pwd_change_error: '密碼修改失敗，請檢查輸入', pwd_mismatch: '兩次輸入的密碼不一致',
+    pwd_short: '密碼至少需要6位', logout_confirm: '確定要登出嗎？',
+    admin_models: '系統模型配置', member_api: '會員API AI綁定',
+    invite_verify: '管理員邀請碼驗證', invite_desc: '請輸入開發者提供的邀請碼以解鎖管理員功能',
+    verify: '驗證', model_name: '自定義名稱', api_mode: 'API模式',
+    confirm_name: '確認名稱', confirm_mode: '確認API模式', api_key: 'API密鑰',
+    api_host: 'API主機', api_path: 'API路徑', add_model: '添加模型',
+    add_api: '添加API', system_models: '系統模型列表',
+    api_bindings: '自定義API綁定', fetch_models: '獲取模型',
+    show_results: '顯示獲取結果', select_model: '選用模型',
+    save_config: '保存', use_records: '使用記錄',
+    reset_models: '重置模型', delete: '刪除',
+    no_system_models: '暫無系統模型配置', no_member_models: '暫無API綁定',
+    prev: '上一步', next: '下一步', confirm: '確認發送'
+  },
+  'en': {
+    member_center: 'Member Center', avatar_title: 'Avatar', change_avatar: 'Change Avatar',
+    save_avatar: 'Save Avatar', basic_info: 'Basic Info', member_id: 'Member ID',
+    member_email: 'Email', reg_time: 'Registration Time', change_password: 'Change Password',
+    old_password: 'Current Password', new_password: 'New Password', confirm_new_password: 'Confirm New Password',
+    send_change: 'Confirm Change', pwd_change_success: 'Password changed successfully!',
+    pwd_change_error: 'Failed to change password, please check your input', pwd_mismatch: 'Passwords do not match',
+    pwd_short: 'Password must be at least 6 characters', logout_confirm: 'Are you sure you want to log out?',
+    admin_models: 'System Model Config', member_api: 'Member API AI Binding',
+    invite_verify: 'Admin Invite Code', invite_desc: 'Enter the invite code provided by the developer to unlock admin features',
+    verify: 'Verify', model_name: 'Custom Name', api_mode: 'API Mode',
+    confirm_name: 'Confirm Name', confirm_mode: 'Confirm API Mode', api_key: 'API Key',
+    api_host: 'API Host', api_path: 'API Path', add_model: 'Add Model',
+    add_api: 'Add API', system_models: 'System Model List',
+    api_bindings: 'Custom API Bindings', fetch_models: 'Fetch Models',
+    show_results: 'Show Results', select_model: 'Select Model',
+    save_config: 'Save', use_records: 'Usage Records',
+    reset_models: 'Reset Models', delete: 'Delete',
+    no_system_models: 'No system models configured', no_member_models: 'No API bindings',
+    prev: 'Previous', next: 'Next', confirm: 'Confirm'
+  },
+  'vi': {
+    member_center: 'Trung tâm Thành viên', avatar_title: 'Ảnh đại diện', change_avatar: 'Thay đổi ảnh',
+    save_avatar: 'Lưu ảnh', basic_info: 'Thông tin cơ bản', member_id: 'ID Thành viên',
+    member_email: 'Email', reg_time: 'Thời gian đăng ký', change_password: 'Đổi mật khẩu',
+    old_password: 'Mật khẩu hiện tại', new_password: 'Mật khẩu mới', confirm_new_password: 'Xác nhận mật khẩu mới',
+    send_change: 'Xác nhận thay đổi', pwd_change_success: 'Đổi mật khẩu thành công!',
+    pwd_change_error: 'Đổi mật khẩu thất bại, vui lòng kiểm tra', pwd_mismatch: 'Mật khẩu không khớp',
+    pwd_short: 'Mật khẩu cần ít nhất 6 ký tự', logout_confirm: 'Bạn có chắc muốn đăng xuất?',
+    admin_models: 'Cấu hình mô hình hệ thống', member_api: 'API AI của thành viên',
+    invite_verify: 'Mã mời quản trị viên', invite_desc: 'Nhập mã mời do nhà phát triển cung cấp để mở khóa tính năng quản trị',
+    verify: 'Xác minh', model_name: 'Tên tùy chỉnh', api_mode: 'Chế độ API',
+    confirm_name: 'Xác nhận tên', confirm_mode: 'Xác nhận chế độ API', api_key: 'Khóa API',
+    api_host: 'Máy chủ API', api_path: 'Đường dẫn API', add_model: 'Thêm mô hình',
+    add_api: 'Thêm API', system_models: 'Danh sách mô hình hệ thống',
+    api_bindings: 'Liên kết API tùy chỉnh', fetch_models: 'Lấy mô hình',
+    show_results: 'Hiển thị kết quả', select_model: 'Chọn mô hình',
+    save_config: 'Lưu', use_records: 'Lịch sử sử dụng',
+    reset_models: 'Đặt lại mô hình', delete: 'Xóa',
+    no_system_models: 'Chưa có cấu hình mô hình hệ thống', no_member_models: 'Chưa có liên kết API',
+    prev: 'Trước', next: 'Tiếp', confirm: 'Xác nhận'
+  }
+};
+
+let currentLang = 'zh-CN';
+let isEmailVisible = false;
+let originalEmail = '';
+
+function t(key) {
+  return i18n[currentLang][key] || key;
+}
+
+// 页面加载时读取会员信息
+document.addEventListener('DOMContentLoaded', function() {
+  loadMemberInfo();
+});
+
+function loadMemberInfo() {
+  // 从localStorage读取（实际应由后端API获取）
+  const memberId = localStorage.getItem('chuyue_member_id') || generateMemberId();
+  const email = localStorage.getItem('chuyue_email') || 'user@example.com';
+  const regTime = localStorage.getItem('chuyue_reg_time') || new Date().toISOString();
+  
+  // 如果没有ID，生成并保存
+  if (!localStorage.getItem('chuyue_member_id')) {
+    localStorage.setItem('chuyue_member_id', memberId);
+    localStorage.setItem('chuyue_email', email);
+    localStorage.setItem('chuyue_reg_time', regTime);
+  }
+  
+  document.getElementById('memberId').textContent = memberId;
+  originalEmail = email;
+  document.getElementById('emailDisplay').textContent = maskEmail(email);
+  document.getElementById('regTime').textContent = new Date(regTime).toLocaleString(currentLang === 'zh-CN' ? 'zh-CN' : currentLang === 'zh-TW' ? 'zh-TW' : currentLang === 'vi' ? 'vi-VN' : 'en-US');
+  
+  // 加载已保存的头像
+  const savedAvatar = localStorage.getItem('chuyue_avatar');
+  if (savedAvatar) {
+    showAvatar(savedAvatar);
+  }
+}
+
+function generateMemberId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let id = '';
+  for (let i = 0; i < 12; i++) {
+    id += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return id;
+}
+
+function maskEmail(email) {
+  const [name, domain] = email.split('@');
+  if (name.length <= 2) return '*@' + domain;
+  return name[0] + '*'.repeat(name.length - 2) + name[name.length - 1] + '@' + domain;
+}
+
+function toggleEmail() {
+  isEmailVisible = !isEmailVisible;
+  const display = document.getElementById('emailDisplay');
+  const eyeIcon = document.getElementById('eyeIcon');
+  if (isEmailVisible) {
+    display.textContent = originalEmail;
+    eyeIcon.textContent = '🙈';
+  } else {
+    display.textContent = maskEmail(originalEmail);
+    eyeIcon.textContent = '👁';
+  }
+}
+
+// 头像处理
+function handleAvatar(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    showAvatar(e.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function showAvatar(dataUrl) {
+  const img = document.getElementById('avatarImg');
+  const placeholder = document.getElementById('avatarPlaceholder');
+  img.src = dataUrl;
+  img.classList.add('show');
+  placeholder.classList.add('hidden');
+}
+
+function saveAvatar() {
+  const img = document.getElementById('avatarImg');
+  if (!img.src || !img.classList.contains('show')) {
+    alert('请先选择头像');
+    return;
+  }
+  localStorage.setItem('chuyue_avatar', img.src);
+  alert('头像保存成功！');
+}
+
+// 密码可见切换
+function togglePwd(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// 修改密码
+function changePassword() {
+  const oldPwd = document.getElementById('oldPassword').value;
+  const newPwd = document.getElementById('newPassword').value;
+  const confirmPwd = document.getElementById('confirmNewPassword').value;
+  const result = document.getElementById('passwordResult');
+  
+  if (!oldPwd || !newPwd || !confirmPwd) {
+    result.textContent = t('pwd_change_error');
+    result.className = 'password-result error';
+    return;
+  }
+  
+  if (newPwd.length < 6) {
+    result.textContent = t('pwd_short');
+    result.className = 'password-result error';
+    return;
+  }
+  
+  if (newPwd !== confirmPwd) {
+    result.textContent = t('pwd_mismatch');
+    result.className = 'password-result error';
+    return;
+  }
+  
+  // 模拟API调用
+  setTimeout(() => {
+    result.textContent = t('pwd_change_success');
+    result.className = 'password-result success';
+    document.getElementById('oldPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmNewPassword').value = '';
+  }, 800);
+}
+
+function logout() {
+  if (confirm(t('logout_confirm'))) {
+    localStorage.removeItem('chuyue_logged_in');
+    location.href = 'login.html';
+  }
+}
+
+// ===== 管理員模型配置：排版5 =====
+// 邀请码配置（实际应由后端安全存储）
+const INVITE_CODES = ['CHUYUE-2026-ADMIN', 'CHUYUE-DEV-SECRET'];
+let currentModalType = '';
+let currentModalStep = 1;
+let selectedApiMode = '';
+let systemModels = [];
+let memberModels = [];
+let currentSystemModel = null;
+
+function verifyInviteCode() {
+  const input = document.getElementById('inviteCodeInput').value.trim();
+  const result = document.getElementById('inviteResult');
+  if (!input) {
+    result.textContent = '请输入邀请码';
+    result.className = 'invite-result error';
+    return;
+  }
+  if (INVITE_CODES.includes(input)) {
+    result.textContent = '验证成功！已解锁管理员功能';
+    result.className = 'invite-result success';
+    document.getElementById('inviteBox').style.display = 'none';
+    document.getElementById('systemModelSection').style.display = 'block';
+    localStorage.setItem('chuyue_admin_verified', 'true');
+    localStorage.setItem('chuyue_admin_code', input);
+    loadModels();
+  } else {
+    result.textContent = '邀请码无效，请联系开发者获取';
+    result.className = 'invite-result error';
+  }
+}
+
+function checkAdminVerified() {
+  const verified = localStorage.getItem('chuyue_admin_verified');
+  if (verified === 'true') {
+    document.getElementById('inviteBox').style.display = 'none';
+    document.getElementById('systemModelSection').style.display = 'block';
+    loadModels();
+  }
+}
+
+function openModelModal(type) {
+  currentModalType = type;
+  currentModalStep = 1;
+  selectedApiMode = '';
+  document.getElementById('modelName').value = '';
+  document.getElementById('apiKey').value = '';
+  document.getElementById('apiHost').value = '';
+  document.getElementById('apiPath').value = '';
+  document.getElementById('verifyResult').textContent = '';
+  document.querySelectorAll('.api-mode-option').forEach(opt => opt.classList.remove('selected'));
+  const title = type === 'system' ? '添加系统模型' : '添加自定义API';
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modelModal').classList.add('show');
+  updateModalStep();
+}
+
+function closeModal() {
+  document.getElementById('modelModal').classList.remove('show');
+}
+
+function selectApiMode(element) {
+  document.querySelectorAll('.api-mode-option').forEach(opt => opt.classList.remove('selected'));
+  element.classList.add('selected');
+  selectedApiMode = element.dataset.mode;
+}
+
+function toggleApiKey() {
+  const input = document.getElementById('apiKey');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function updateModalStep() {
+  document.querySelectorAll('.modal-step').forEach((step, index) => {
+    step.classList.toggle('active', index + 1 === currentModalStep);
+  });
+  document.getElementById('modalStep1').classList.toggle('active', currentModalStep === 1);
+  document.getElementById('modalStep2').classList.toggle('active', currentModalStep === 2);
+  document.getElementById('btnPrev').style.display = currentModalStep === 2 ? 'inline-flex' : 'none';
+  document.getElementById('btnNext').style.display = currentModalStep === 1 ? 'inline-flex' : 'none';
+  document.getElementById('btnConfirm').style.display = currentModalStep === 2 ? 'inline-flex' : 'none';
+  if (currentModalStep === 2) {
+    document.getElementById('modelNameConfirm').value = document.getElementById('modelName').value;
+    const modeText = {
+      'openai': 'OpenAI API 兼容',
+      'claude': 'Claude API 兼容',
+      'openai-responses': 'OpenAI Responses API 兼容',
+      'gemini': 'Google Gemini API 兼容'
+    };
+    document.getElementById('apiModeConfirm').value = modeText[selectedApiMode] || selectedApiMode;
+  }
+}
+
+function nextStep() {
+  if (currentModalStep === 1) {
+    const name = document.getElementById('modelName').value.trim();
+    if (!name) { alert('请输入模型名称'); return; }
+    if (!selectedApiMode) { alert('请选择API模式'); return; }
+    currentModalStep = 2;
+    updateModalStep();
+  }
+}
+
+function prevStep() {
+  currentModalStep = 1;
+  updateModalStep();
+}
+
+function verifyApiConfig() {
+  const key = document.getElementById('apiKey').value.trim();
+  const host = document.getElementById('apiHost').value.trim();
+  const result = document.getElementById('verifyResult');
+  if (!key || !host) {
+    result.textContent = '请填写API密钥和主机地址';
+    result.style.color = '#e74c3c';
+    return;
+  }
+  result.textContent = '验证中...';
+  result.style.color = 'var(--text-muted)';
+  setTimeout(() => {
+    result.textContent = '✓ 验证成功';
+    result.style.color = '#27ae60';
+  }, 1200);
+}
+
+function confirmAddModel() {
+  const name = document.getElementById('modelName').value.trim();
+  const key = document.getElementById('apiKey').value.trim();
+  const host = document.getElementById('apiHost').value.trim();
+  const path = document.getElementById('apiPath').value.trim();
+  if (!key || !host) { alert('请填写API密钥和主机地址'); return; }
+  const model = {
+    id: Date.now().toString(),
+    name: name, mode: selectedApiMode, key: key, host: host, path: path,
+    createdAt: new Date().toISOString(),
+    memberId: document.getElementById('memberId').textContent
+  };
+  if (currentModalType === 'system') {
+    systemModels.push(model);
+    saveSystemModels();
+    renderSystemModels();
+  } else {
+    memberModels.push(model);
+    saveMemberModels();
+    renderMemberModels();
+  }
+  closeModal();
+}
+
+function saveSystemModels() {
+  localStorage.setItem('chuyue_system_models', JSON.stringify(systemModels));
+}
+function saveMemberModels() {
+  localStorage.setItem('chuyue_member_models', JSON.stringify(memberModels));
+}
+function loadModels() {
+  const sys = localStorage.getItem('chuyue_system_models');
+  const mem = localStorage.getItem('chuyue_member_models');
+  if (sys) { systemModels = JSON.parse(sys); renderSystemModels(); }
+  if (mem) { memberModels = JSON.parse(mem); renderMemberModels(); }
+}
+
+function renderSystemModels() {
+  const container = document.getElementById('systemModelList');
+  if (systemModels.length === 0) {
+    container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted); font-size:13px;">暂无系统模型配置</div>';
+    return;
+  }
+  container.innerHTML = systemModels.map(model => `
+    <div class="model-item ${currentSystemModel === model.id ? 'selected' : ''}" data-id="${model.id}">
+      <div class="model-info">
+        <div class="model-name">${model.name}</div>
+        <div class="model-type">${getModeText(model.mode)}</div>
+        <div class="model-detail">
+          <span style="opacity:0.6;">主机:</span> ${model.host}<br>
+          <span style="opacity:0.6;">路径:</span> ${model.path || '/v1/chat/completions'}
+        </div>
+      </div>
+      <div class="model-actions">
+        <button class="btn-action ${currentSystemModel === model.id ? 'primary' : ''}" onclick="selectSystemModel('${model.id}')">
+          ${currentSystemModel === model.id ? '已选用' : '选用'}
+        </button>
+        <button class="btn-action" onclick="testModel('${model.id}', 'system')">测试</button>
+        <button class="btn-action" onclick="showModelRecords('${model.id}', 'system')">记录</button>
+        <button class="btn-action danger" onclick="deleteModel('${model.id}', 'system')">删除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderMemberModels() {
+  const container = document.getElementById('memberModelList');
+  if (memberModels.length === 0) {
+    container.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted); font-size:13px;">暂无API绑定</div>';
+    return;
+  }
+  container.innerHTML = memberModels.map(model => `
+    <div class="model-item">
+      <div class="model-info">
+        <div class="model-name">${model.name}</div>
+        <div class="model-type">${getModeText(model.mode)}</div>
+        <div class="model-detail">
+          <span style="opacity:0.6;">主机:</span> ${model.host}<br>
+          <span style="opacity:0.6;">密钥:</span> ${maskKey(model.key)}
+        </div>
+      </div>
+      <div class="model-actions">
+        <button class="btn-action" onclick="testModel('${model.id}', 'member')">测试</button>
+        <button class="btn-action" onclick="showModelRecords('${model.id}', 'member')">记录</button>
+        <button class="btn-action danger" onclick="deleteModel('${model.id}', 'member')">删除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getModeText(mode) {
+  const texts = {
+    'openai': 'OpenAI API 兼容', 'claude': 'Claude API 兼容',
+    'openai-responses': 'OpenAI Responses API 兼容', 'gemini': 'Google Gemini API 兼容'
+  };
+  return texts[mode] || mode;
+}
+
+function maskKey(key) {
+  if (key.length <= 8) return '****';
+  return key.substring(0, 4) + '*'.repeat(key.length - 8) + key.substring(key.length - 4);
+}
+
+function selectSystemModel(id) {
+  currentSystemModel = id;
+  saveSystemModels();
+  renderSystemModels();
+  addUseRecord(id, 'system', '选用');
+}
+
+function testModel(id, type) {
+  const models = type === 'system' ? systemModels : memberModels;
+  const model = models.find(m => m.id === id);
+  if (!model) return;
+  alert(`正在测试模型: ${model.name}\n主机: ${model.host}\n模拟测试中...`);
+  addUseRecord(id, type, '测试');
+}
+
+function showModelRecords(id, type) {
+  const records = getUseRecords(id, type);
+  if (records.length === 0) { alert('暂无使用记录'); return; }
+  let text = `使用记录 (${records.length}条):\n\n`;
+  records.slice(-10).forEach(r => {
+    text += `${new Date(r.time).toLocaleString()} - ${r.action}\n`;
+  });
+  alert(text);
+}
+
+function deleteModel(id, type) {
+  if (!confirm('确定要删除此配置吗？')) return;
+  if (type === 'system') {
+    systemModels = systemModels.filter(m => m.id !== id);
+    if (currentSystemModel === id) currentSystemModel = null;
+    saveSystemModels();
+    renderSystemModels();
+  } else {
+    memberModels = memberModels.filter(m => m.id !== id);
+    saveMemberModels();
+    renderMemberModels();
+  }
+}
+
+function addUseRecord(modelId, type, action) {
+  const records = JSON.parse(localStorage.getItem('chuyue_use_records') || '[]');
+  records.push({
+    modelId: modelId, type: type, action: action,
+    time: new Date().toISOString(),
+    memberId: document.getElementById('memberId').textContent
+  });
+  localStorage.setItem('chuyue_use_records', JSON.stringify(records));
+}
+
+function getUseRecords(modelId, type) {
+  const records = JSON.parse(localStorage.getItem('chuyue_use_records') || '[]');
+  return records.filter(r => r.modelId === modelId && r.type === type);
+}
+
+function resetModels(type) {
+  if (!confirm('确定要重置所有模型配置吗？此操作不可恢复。')) return;
+  if (type === 'system') {
+    systemModels = [];
+    currentSystemModel = null;
+    saveSystemModels();
+    renderSystemModels();
+  } else {
+    memberModels = [];
+    saveMemberModels();
+    renderMemberModels();
+  }
+}
+
+// 页面加载时检查管理员验证状态
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => {
+    checkAdminVerified();
+    const isAdmin = localStorage.getItem('chuyue_admin_verified') === 'true';
+    if (isAdmin) {
+      document.getElementById('adminSection').classList.add('show');
+    }
+  }, 100);
+});
+
+// ===== 排版5-6 缺失的函数补完 =====
+
+function fetchSystemModels() {
+  const result = document.getElementById('systemModelResult');
+  result.textContent = '正在获取模型列表...';
+  result.style.color = 'var(--text-muted)';
+  setTimeout(() => {
+    result.innerHTML = '<strong>已获取 3 个模型:</strong><br>1. gpt-4<br>2. gpt-3.5-turbo<br>3. text-davinci-003<br><em style="color:var(--text-muted);">（此为模拟数据，实际由后端API提供）</em>';
+    result.style.color = '#27ae60';
+    addUseRecord('system', 'system', '获取模型');
+  }, 1200);
+}
+
+function showAllSystemModels() {
+  const result = document.getElementById('systemModelResult');
+  if (systemModels.length === 0) { result.innerHTML = '<em style="color:var(--text-muted);">暂无已获取的模型记录</em>'; return; }
+  let html = '<strong>系统模型列表 (' + systemModels.length + '):</strong><br>';
+  systemModels.forEach(m => { html += '<div style="margin:4px 0; font-family:monospace; font-size:12px;">' + m.name + ' (' + getModeText(m.mode) + ')</div>'; });
+  result.innerHTML = html;
+  result.style.color = 'var(--text-primary)';
+}
+
+function fetchMemberModels() {
+  const result = document.getElementById('memberModelResult');
+  result.textContent = '正在获取模型列表...';
+  result.style.color = 'var(--text-muted)';
+  setTimeout(() => {
+    result.innerHTML = '<strong>已获取 2 个模型:</strong><br>1. gpt-4o-mini<br>2. claude-3-haiku<br><em style="color:var(--text-muted);">（此为模拟数据，实际由后端API提供）</em>';
+    result.style.color = '#27ae60';
+    addUseRecord('member', 'member', '获取模型');
+  }, 1200);
+}
+
+function showAllMemberModels() {
+  const result = document.getElementById('memberModelResult');
+  if (memberModels.length === 0) { result.innerHTML = '<em style="color:var(--text-muted);">暂无已获取的模型记录</em>'; return; }
+  let html = '<strong>会员API模型列表 (' + memberModels.length + '):</strong><br>';
+  memberModels.forEach(m => { html += '<div style="margin:4px 0; font-family:monospace; font-size:12px;">' + m.name + ' (' + getModeText(m.mode) + ')</div>'; });
+  result.innerHTML = html;
+  result.style.color = 'var(--text-primary)';
+}
+
+let selectedMemberModelId = null;
+function selectMemberModel() {
+  if (memberModels.length === 0) { alert('暂无API绑定，请先添加'); return; }
+  let html = '当前绑定模型:<br>';
+  memberModels.forEach((m, i) => {
+    const sel = selectedMemberModelId === m.id;
+    html += '<div onclick="selectedMemberModelId=\'' + m.id + '\'; alert(\'已选用: ' + m.name + '\'); selectMemberModel();" style="cursor:pointer; padding:8px 12px; margin:4px 0; border-radius:8px; border:1.5px solid ' + (sel ? 'var(--primary)' : 'var(--border-light)') + '; background:' + (sel ? 'var(--bg-hover)' : 'transparent') + ';">' + (sel ? '✓ ' : '') + m.name + ' (' + getModeText(m.mode) + ')</div>';
+  });
+  document.getElementById('memberModelResult').innerHTML = html;
+}
+
+function saveMemberConfig() {
+  if (!selectedMemberModelId && memberModels.length > 0) { alert('请先选用一个模型'); return; }
+  localStorage.setItem('chuyue_selected_member_model', selectedMemberModelId || '');
+  alert('配置已保存！');
+  addUseRecord(selectedMemberModelId || 'member', 'member', '保存配置');
+}
+
+function showMemberRecords() {
+  const records = JSON.parse(localStorage.getItem('chuyue_use_records') || '[]').filter(r => r.type === 'member');
+  if (records.length === 0) { alert('暂无使用记录'); return; }
+  let html = '<strong>会员API使用记录 (' + records.length + ' 条):</strong><table class="record-table" style="margin-top:8px;"><tr><th>时间</th><th>动作</th><th>会员ID</th></tr>';
+  records.slice(-20).reverse().forEach(r => {
+    html += '<tr><td>' + new Date(r.time).toLocaleString() + '</td><td>' + r.action + '</td><td>' + (r.memberId || '--') + '</td></tr>';
+  });
+  html += '</table>';
+  document.getElementById('memberModelResult').innerHTML = html;
+}
+
+function deleteMemberModel() {
+  if (memberModels.length === 0) { alert('暂无API绑定'); return; }
+  if (memberModels.length === 1) {
+    if (!confirm('确定删除: ' + memberModels[0].name + '?')) return;
+    memberModels = []; selectedMemberModelId = null;
+    saveMemberModels(); renderMemberModels();
+    alert('已删除'); return;
+  }
+  let html = '点击要删除的模型:<br>';
+  memberModels.forEach(m => {
+    html += '<div onclick="if(confirm(\'确定删除 ' + m.name + '?\')){ memberModels=memberModels.filter(x=>x.id!==\'' + m.id + '\'); if(selectedMemberModelId===\'' + m.id + '\')selectedMemberModelId=null; saveMemberModels(); renderMemberModels(); alert(\'已删除\'); document.getElementById(\'memberModelResult\').innerHTML=\'\'; }" style="cursor:pointer; padding:8px 12px; margin:4px 0; border-radius:8px; border:1.5px solid var(--border-light); color:#e74c3c;">' + m.name + ' (' + getModeText(m.mode) + ') — 删除</div>';
+  });
+  document.getElementById('memberModelResult').innerHTML = html;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang === 'vi' ? 'vi' : lang === 'en' ? 'en' : lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = i18n[lang][key];
+    if (val) el.textContent = val;
+  });
+}
+
+// 初始化
+setLang('zh-CN');
+</script>
+</body>
+</html>

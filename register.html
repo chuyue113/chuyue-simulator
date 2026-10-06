@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="yuanshan">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chuyue - 注册</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== 四套國風配色主題 ===== */
+  :root {
+    --primary: #EABFC3; --primary-dark: #d4a8ac; --primary-light: #f5d5d9;
+    --accent: #EAC077; --accent-light: #F2CB8E;
+    --bg-main: #FFFCFA; --bg-sidebar: #FFF8F5; --bg-card: #FFFAF8;
+    --bg-hover: rgba(234, 191, 195, 0.1); --bg-active: rgba(234, 191, 195, 0.2);
+    --text-primary: #5C4446; --text-secondary: #8B6F72; --text-muted: #B8A0A3; --text-light: #D4C0C3;
+    --border: #F0E0E2; --border-light: #F8ECEE;
+    --shadow-soft: 0 4px 20px rgba(234, 191, 195, 0.15);
+    --shadow-card: 0 6px 24px rgba(92, 68, 70, 0.06);
+    --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px;
+  }
+  [data-theme="chuangsha"] {
+    --primary: #B6A9C8; --primary-dark: #9a8daf; --primary-light: #d4ccdf;
+    --accent: #A09BC3; --accent-light: #b8b4d0;
+    --bg-main: #F8F6FA; --bg-sidebar: #F2EFF5; --bg-card: #FAF8FB;
+    --bg-hover: rgba(182, 169, 200, 0.1); --bg-active: rgba(182, 169, 200, 0.2);
+    --text-primary: #4A4458; --text-secondary: #7A7288; --text-muted: #A8A0B8; --text-light: #C8C0D4;
+    --border: #E0DAE8; --border-light: #EDE8F2;
+    --shadow-soft: 0 4px 20px rgba(182, 169, 200, 0.15);
+    --shadow-card: 0 6px 24px rgba(74, 68, 88, 0.06);
+  }
+  [data-theme="yuanshan"] {
+    --primary: #A8BEDF; --primary-dark: #8ba4cf; --primary-light: #c5d4ea;
+    --accent: #C7D5E8; --accent-light: #d8e2f0;
+    --bg-main: #F5F7FA; --bg-sidebar: #ECF0F5; --bg-card: #F8FAFC;
+    --bg-hover: rgba(168, 190, 223, 0.1); --bg-active: rgba(168, 190, 223, 0.2);
+    --text-primary: #4A5060; --text-secondary: #7A8090; --text-muted: #A8B0C0; --text-light: #C8D0D8;
+    --border: #D8DFE8; --border-light: #E8EDF2;
+    --shadow-soft: 0 4px 20px rgba(168, 190, 223, 0.15);
+    --shadow-card: 0 6px 24px rgba(74, 80, 96, 0.06);
+  }
+  [data-theme="taozhi"] {
+    --primary: #E6A6AC; --primary-dark: #cf8a91; --primary-light: #f0c4c8;
+    --accent: #A1C2B1; --accent-light: #b8d4c5;
+    --bg-main: #FEFAFA; --bg-sidebar: #F5F0F0; --bg-card: #FAF5F5;
+    --bg-hover: rgba(230, 166, 172, 0.1); --bg-active: rgba(230, 166, 172, 0.2);
+    --text-primary: #5C484A; --text-secondary: #8B787A; --text-muted: #B8A8AA; --text-light: #D4C4C6;
+    --border: #F0E0E2; --border-light: #F8ECEE;
+    --shadow-soft: 0 4px 20px rgba(230, 166, 172, 0.15);
+    --shadow-card: 0 6px 24px rgba(92, 72, 74, 0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Serif SC", "Songti SC", serif;
+    background: var(--bg-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .brand-script {
+    font-family: "Great Vibes", cursive;
+    font-weight: 400;
+  }
+
+  /* 注册卡片 */
+  .register-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 420px;
+    margin: 20px;
+    border: 1.5px solid var(--border);
+    animation: fadeUp 0.5s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .register-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .register-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+  .register-header .brand {
+    font-family: "Great Vibes", cursive;
+    font-size: 36px;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+  }
+  .register-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* 步骤指示器 */
+  .steps {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .step {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    border: 2px solid var(--border);
+    transition: all 0.3s;
+  }
+  .step.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+  .step.completed {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .step-line {
+    width: 40px;
+    height: 2px;
+    background: var(--border);
+    align-self: center;
+    margin: 0 4px;
+  }
+
+  /* 表单区域 */
+  .form-section {
+    display: none;
+  }
+  .form-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s;
+    outline: none;
+  }
+  .form-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(168, 190, 223, 0.15);
+  }
+  .form-input::placeholder {
+    color: var(--text-light);
+  }
+
+  /* 邮箱行（带验证按钮） */
+  .email-row {
+    display: flex;
+    gap: 8px;
+  }
+  .email-row .form-input {
+    flex: 1;
+  }
+  .btn-verify {
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--primary);
+    background: var(--primary);
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .btn-verify:hover {
+    background: var(--primary-dark);
+  }
+  .btn-verify:disabled {
+    background: var(--text-light);
+    border-color: var(--text-light);
+    cursor: not-allowed;
+  }
+
+  /* 验证码行 */
+  .code-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .code-row .form-input {
+    flex: 1;
+  }
+  .code-status {
+    font-size: 20px;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .code-status.show {
+    opacity: 1;
+  }
+
+  /* 状态提示 */
+  .status-msg {
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 18px;
+  }
+  .status-msg.error {
+    color: #e74c3c;
+  }
+  .status-msg.success {
+    color: #27ae60;
+  }
+  .status-msg.info {
+    color: var(--text-muted);
+  }
+
+  /* 密码一致性 */
+  .password-match {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .password-match .icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+  .password-match.match .icon {
+    background: #27ae60;
+    color: #fff;
+  }
+  .password-match.match {
+    color: #27ae60;
+  }
+  .password-match.mismatch .icon {
+    background: #e74c3c;
+    color: #fff;
+  }
+  .password-match.mismatch {
+    color: #e74c3c;
+  }
+
+  /* 按钮 */
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--text-primary);
+    color: #fff;
+    font-size: 15px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+  }
+  .btn-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  .btn-submit:disabled {
+    background: var(--text-light);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* 结果页面 */
+  .result-section {
+    text-align: center;
+    padding: 20px 0;
+    display: none;
+  }
+  .result-section.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+  .result-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+  }
+  .result-icon.success {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+  .result-icon.error {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+  .result-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .result-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  /* 底部链接 */
+  .form-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .form-footer a {
+    color: var(--primary-dark);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .form-footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* 已有账号提示 */
+  .registered-hint {
+    background: rgba(231, 76, 60, 0.08);
+    border: 1.5px solid rgba(231, 76, 60, 0.2);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #e74c3c;
+    display: none;
+  }
+  .registered-hint.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  /* 返回按钮 */
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    background: var(--bg-main);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 12px;
+  }
+  .btn-back:hover {
+    border-color: var(--primary);
+    color: var(--primary-dark);
+  }
+
+  /* 语言切换 */
+  .lang-switcher {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    padding: 8px 12px;
+    display: flex;
+    gap: 4px;
+    border: 1.5px solid var(--border);
+  }
+  .lang-btn {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1.5px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .lang-btn:hover {
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+  }
+  .lang-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  /* 响应式 */
+  @media (max-width: 480px) {
+    .register-card {
+      margin: 12px;
+      padding: 28px 20px;
+      border-radius: var(--radius-lg);
+    }
+    .register-header h1 {
+      font-size: 22px;
+    }
+    .register-header .brand {
+      font-size: 28px;
+    }
+    .email-row {
+      flex-direction: column;
+    }
+    .btn-verify {
+      width: 100%;
+    }
+    .code-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* 输入框眼睛图标（用于密码） */
+  .input-wrapper {
+    position: relative;
+  }
+  .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    user-select: none;
+    transition: color 0.2s;
+  }
+  .toggle-password:hover {
+    color: var(--text-secondary);
+  }
+  .form-input.has-toggle {
+    padding-right: 42px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 语言切换 -->
+<div class="lang-switcher">
+  <button class="lang-btn" data-lang="zh-TW" onclick="setLang('zh-TW')">繁中</button>
+  <button class="lang-btn active" data-lang="zh-CN" onclick="setLang('zh-CN')">简中</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+  <button class="lang-btn" data-lang="vi" onclick="setLang('vi')">Tiếng Việt</button>
+</div>
+
+<!-- 注册卡片 -->
+<div class="register-card">
+  <div class="register-header">
+    <div class="brand">Chuyue</div>
+    <h1 data-i18n="register_title">注册会员</h1>
+    <p data-i18n="register_subtitle">创建您的专属账号，开启AI文字游戏之旅</p>
+  </div>
+
+  <!-- 步骤指示器 -->
+  <div class="steps" id="stepIndicator">
+    <div class="step active" id="step1">1</div>
+    <div class="step-line"></div>
+    <div class="step" id="step2">2</div>
+    <div class="step-line"></div>
+    <div class="step" id="step3">3</div>
+  </div>
+
+  <!-- 步骤1：邮箱验证 -->
+  <div class="form-section active" id="section1">
+    <div class="registered-hint" id="registeredHint">
+      <span data-i18n="email_registered">此邮箱已注册，请直接登录</span>
+      <a href="login.html" data-i18n="go_login">去登录</a>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="email_label">邮箱地址</label>
+      <div class="email-row">
+        <input type="email" class="form-input" id="email" placeholder="example@email.com" onblur="checkEmail()">
+        <button class="btn-verify" id="btnSendCode" onclick="sendVerificationCode()" data-i18n="send_code">获取验证码</button>
+      </div>
+      <div class="status-msg" id="emailStatus"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="verify_code_label">验证码</label>
+      <div class="code-row">
+        <input type="text" class="form-input" id="verifyCode" placeholder="123456" maxlength="6" oninput="checkCode()">
+        <span class="code-status" id="codeStatus">✓</span>
+      </div>
+    </div>
+    <button class="btn-submit" onclick="goToStep2()" data-i18n="next_step">下一步</button>
+  </div>
+
+  <!-- 步骤2：设置密码 -->
+  <div class="form-section" id="section2">
+    <div class="form-group">
+      <label class="form-label" data-i18n="password_label">设置密码</label>
+      <div class="input-wrapper">
+        <input type="password" class="form-input has-toggle" id="password" placeholder="••••••••" oninput="checkPasswordMatch()">
+        <span class="toggle-password" onclick="togglePassword('password')">👁</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" data-i18n="confirm_password_label">确认密码</label>
+      <div class="input-wrapper">
+        <input type="password" class="form-input has-toggle" id="confirmPassword" placeholder="••••••••" oninput="checkPasswordMatch()">
+        <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁</span>
+      </div>
+      <div class="password-match" id="passwordMatch">
+        <span class="icon">?</span>
+        <span data-i18n="password_check">请输入密码</span>
+      </div>
+    </div>
+    <button class="btn-submit" id="btnSubmit" onclick="submitRegister()" disabled data-i18n="submit_register">注册</button>
+  </div>
+
+  <!-- 步骤3：结果 -->
+  <div class="result-section" id="section3">
+    <div class="result-icon success" id="resultIcon">✓</div>
+    <div class="result-title" id="resultTitle" data-i18n="register_success">注册成功！</div>
+    <div class="result-desc" id="resultDesc" data-i18n="register_success_desc">正在跳转至会员中心...</div>
+    <div id="resultActions">
+      <button class="btn-submit" onclick="location.href='member.html'" data-i18n="go_member">进入会员中心</button>
+    </div>
+  </div>
+
+  <!-- 底部 -->
+  <div class="form-footer">
+    <span data-i18n="have_account">已有账号？</span>
+    <a href="login.html" data-i18n="login_now">立即登录</a>
+  </div>
+</div>
+
+<script>
+// ===== 多语言字典 =====
+const i18n = {
+  'zh-CN': {
+    register_title: '注册会员',
+    register_subtitle: '创建您的专属账号，开启AI文字游戏之旅',
+    email_label: '邮箱地址',
+    send_code: '获取验证码',
+    verify_code_label: '验证码',
+    email_registered: '此邮箱已注册，请直接登录',
+    go_login: '去登录',
+    next_step: '下一步',
+    password_label: '设置密码',
+    confirm_password_label: '确认密码',
+    password_check: '请输入密码',
+    password_match: '密码一致 ✓',
+    password_mismatch: '密码不一致 ✗',
+    submit_register: '注册',
+    register_success: '注册成功！',
+    register_success_desc: '正在跳转至会员中心...',
+    go_member: '进入会员中心',
+    have_account: '已有账号？',
+    login_now: '立即登录',
+    code_sent: '验证码已发送',
+    code_verified: '验证通过 ✓',
+    email_invalid: '请输入有效的邮箱地址',
+    email_checking: '检测中...',
+    password_short: '密码至少需要6位',
+    register_failed: '注册失败，请重试',
+  },
+  'zh-TW': {
+    register_title: '註冊會員',
+    register_subtitle: '創建您的專屬賬號，開啟AI文字遊戲之旅',
+    email_label: '郵箱地址',
+    send_code: '獲取驗證碼',
+    verify_code_label: '驗證碼',
+    email_registered: '此郵箱已註冊，請直接登錄',
+    go_login: '去登錄',
+    next_step: '下一步',
+    password_label: '設置密碼',
+    confirm_password_label: '確認密碼',
+    password_check: '請輸入密碼',
+    password_match: '密碼一致 ✓',
+    password_mismatch: '密碼不一致 ✗',
+    submit_register: '註冊',
+    register_success: '註冊成功！',
+    register_success_desc: '正在跳轉至會員中心...',
+    go_member: '進入會員中心',
+    have_account: '已有賬號？',
+    login_now: '立即登錄',
+    code_sent: '驗證碼已發送',
+    code_verified: '驗證通過 ✓',
+    email_invalid: '請輸入有效的郵箱地址',
+    email_checking: '檢測中...',
+    password_short: '密碼至少需要6位',
+    register_failed: '註冊失敗，請重試',
+  },
+  'en': {
+    register_title: 'Register',
+    register_subtitle: 'Create your account and start your AI text game journey',
+    email_label: 'Email Address',
+    send_code: 'Get Code',
+    verify_code_label: 'Verification Code',
+    email_registered: 'This email is already registered. Please log in.',
+    go_login: 'Log in',
+    next_step: 'Next',
+    password_label: 'Set Password',
+    confirm_password_label: 'Confirm Password',
+    password_check: 'Enter password',
+    password_match: 'Passwords match ✓',
+    password_mismatch: 'Passwords do not match ✗',
+    submit_register: 'Register',
+    register_success: 'Registration Successful!',
+    register_success_desc: 'Redirecting to Member Center...',
+    go_member: 'Go to Member Center',
+    have_account: 'Already have an account?',
+    login_now: 'Log in now',
+    code_sent: 'Code sent',
+    code_verified: 'Verified ✓',
+    email_invalid: 'Please enter a valid email',
+    email_checking: 'Checking...',
+    password_short: 'Password must be at least 6 characters',
+    register_failed: 'Registration failed, please try again',
+  },
+  'vi': {
+    register_title: 'Đăng ký',
+    register_subtitle: 'Tạo tài khoản của bạn và bắt đầu hành trình trò chơi văn bản AI',
+    email_label: 'Địa chỉ Email',
+    send_code: 'Nhận mã',
+    verify_code_label: 'Mã xác nhận',
+    email_registered: 'Email này đã được đăng ký. Vui lòng đăng nhập.',
+    go_login: 'Đăng nhập',
+    next_step: 'Tiếp theo',
+    password_label: 'Đặt mật khẩu',
+    confirm_password_label: 'Xác nhận mật khẩu',
+    password_check: 'Nhập mật khẩu',
+    password_match: 'Mật khẩu khớp ✓',
+    password_mismatch: 'Mật khẩu không khớp ✗',
+    submit_register: 'Đăng ký',
+    register_success: 'Đăng ký thành công!',
+    register_success_desc: 'Đang chuyển hướng đến Trung tâm Thành viên...',
+    go_member: 'Vào Trung tâm Thành viên',
+    have_account: 'Đã có tài khoản?',
+    login_now: 'Đăng nhập ngay',
+    code_sent: 'Mã đã gửi',
+    code_verified: 'Đã xác nhận ✓',
+    email_invalid: 'Vui lòng nhập email hợp lệ',
+    email_checking: 'Đang kiểm tra...',
+    password_short: 'Mật khẩu cần ít nhất 6 ký tự',
+    register_failed: 'Đăng ký thất bại, vui lòng thử lại',
+  }
+};
+
+let currentLang = 'zh-CN';
+let isEmailRegistered = false;
+let isCodeVerified = false;
+let generatedCode = '';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+}
+
+function t(key) {
+  return i18n[currentLang][key] || key;
+}
+
+// 邮箱验证
+function checkEmail() {
+  const email = document.getElementById('email').value.trim();
+  const status = document.getElementById('emailStatus');
+  const hint = document.getElementById('registeredHint');
+  
+  if (!email || !email.includes('@')) {
+    status.textContent = t('email_invalid');
+    status.className = 'status-msg error';
+    return false;
+  }
+  
+  status.textContent = t('email_checking');
+  status.className = 'status-msg info';
+  
+  // 模拟检测（实际应由后端API检测）
+  setTimeout(() => {
+    // 模拟：demo@example.com 视为已注册
+    if (email === 'demo@example.com') {
+      isEmailRegistered = true;
+      hint.classList.add('show');
+      status.textContent = t('email_registered');
+      status.className = 'status-msg error';
+      document.getElementById('btnSendCode').disabled = true;
+    } else {
+      isEmailRegistered = false;
+      hint.classList.remove('show');
+      status.textContent = '';
+      document.getElementById('btnSendCode').disabled = false;
+    }
+  }, 800);
+  
+  return true;
+}
+
+// 发送验证码
+function sendVerificationCode() {
+  if (isEmailRegistered) return;
+  
+  const email = document.getElementById('email').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailStatus').textContent = t('email_invalid');
+    document.getElementById('emailStatus').className = 'status-msg error';
+    return;
+  }
+  
+  const btn = document.getElementById('btnSendCode');
+  btn.disabled = true;
+  
+  // 模拟发送验证码
+  generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+  console.log('验证码:', generatedCode); // 实际应由后端发送邮件
+  
+  document.getElementById('emailStatus').textContent = t('code_sent');
+  document.getElementById('emailStatus').className = 'status-msg success';
+  
+  // 倒计时
+  let countdown = 60;
+  const timer = setInterval(() => {
+    countdown--;
+    btn.textContent = `${countdown}s`;
+    if (countdown <= 0) {
+      clearInterval(timer);
+      btn.disabled = false;
+      btn.textContent = t('send_code');
+    }
+  }, 1000);
+}
+
+// 验证码校验
+function checkCode() {
+  const code = document.getElementById('verifyCode').value.trim();
+  const status = document.getElementById('codeStatus');
+  
+  if (code.length === 6 && code === generatedCode) {
+    isCodeVerified = true;
+    status.classList.add('show');
+  } else {
+    isCodeVerified = false;
+    status.classList.remove('show');
+  }
+}
+
+// 下一步
+function goToStep2() {
+  if (!isCodeVerified) {
+    document.getElementById('emailStatus').textContent = '请先完成邮箱验证';
+    document.getElementById('emailStatus').className = 'status-msg error';
+    return;
+  }
+  
+  document.getElementById('section1').classList.remove('active');
+  document.getElementById('section2').classList.add('active');
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step1').classList.add('completed');
+  document.getElementById('step2').classList.add('active');
+}
+
+// 密码可见切换
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// 密码一致性检查
+function checkPasswordMatch() {
+  const pwd = document.getElementById('password').value;
+  const confirm = document.getElementById('confirmPassword').value;
+  const matchEl = document.getElementById('passwordMatch');
+  const btn = document.getElementById('btnSubmit');
+  
+  if (!pwd || !confirm) {
+    matchEl.className = 'password-match';
+    matchEl.querySelector('.icon').textContent = '?';
+    matchEl.querySelector('span:last-child').textContent = t('password_check');
+    btn.disabled = true;
+    return;
+  }
+  
+  if (pwd.length < 6) {
+    matchEl.className = 'password-match mismatch';
+    matchEl.querySelector('.icon').textContent = '✗';
+    matchEl.querySelector('span:last-child').textContent = t('password_short');
+    btn.disabled = true;
+    return;
+  }
+  
+  if (pwd === confirm) {
+    matchEl.className = 'password-match match';
+    matchEl.querySelector('.icon').textContent = '✓';
+    matchEl.querySelector('span:last-child').textContent = t('password_match');
+    btn.disabled = false;
+  } else {
+    matchEl.className = 'password-match mismatch';
+    matchEl.querySelector('.icon').textContent = '✗';
+    matchEl.querySelector('span:last-child').textContent = t('password_mismatch');
+    btn.disabled = true;
+  }
+}
+
+// 提交注册
+function submitRegister() {
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.textContent = '...';
+  
+  // 模拟注册API调用
+  setTimeout(() => {
+    // 模拟成功
+    showResult(true);
+    
+    // 存储注册信息（实际应由后端处理）
+    const email = document.getElementById('email').value;
+    const memberId = generateMemberId();
+    localStorage.setItem('chuyue_member_id', memberId);
+    localStorage.setItem('chuyue_email', email);
+    localStorage.setItem('chuyue_reg_time', new Date().toISOString());
+    
+    // 3秒后自动跳转
+    setTimeout(() => {
+      location.href = 'member.html';
+    }, 3000);
+  }, 1500);
+}
+
+// 生成12位会员ID
+function generateMemberId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let id = '';
+  for (let i = 0; i < 12; i++) {
+    id += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return id;
+}
+
+// 显示结果
+function showResult(success) {
+  document.getElementById('section2').classList.remove('active');
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('step2').classList.add('completed');
+  document.getElementById('step3').classList.add('active');
+  
+  const section = document.getElementById('section3');
+  section.classList.add('active');
+  
+  if (!success) {
+    document.getElementById('resultIcon').textContent = '✗';
+    document.getElementById('resultIcon').className = 'result-icon error';
+    document.getElementById('resultTitle').textContent = t('register_failed');
+    document.getElementById('resultDesc').textContent = '';
+  }
+}
+
+// 初始化
+setLang('zh-CN');
+</script>
+</body>
+</html>
