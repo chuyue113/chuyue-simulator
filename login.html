@@ -288,15 +288,20 @@ function togglePassword() {
 function login() {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+  const btn = document.querySelector('.btn-submit');
   
-  if (!email || !password) {
-    alert('请填写邮箱和密码');
-    return;
+  // 骨架阶段：允许空字段演示登录流程
+  if (!email && !password) {
+    console.log('骨架演示模式：跳过验证直接登录');
   }
   
-  // 模拟登录验证
+  btn.textContent = t('logging_in') || '登录中...';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+  
   setTimeout(() => {
     localStorage.setItem('chuyue_logged_in', 'true');
+    localStorage.setItem('chuyue_email', email || 'demo@chuyue.app');
     location.href = 'member.html';
   }, 800);
 }
